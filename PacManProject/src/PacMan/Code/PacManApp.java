@@ -1,4 +1,4 @@
-package PacMan;
+package PacMan.Code;
 
 public class PacManApp {
     public static void main(String[] args) throws Exception {
