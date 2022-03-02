@@ -1,4 +1,4 @@
-package PacMan.Code;
+package pacman;
 
 public class Tile {
 

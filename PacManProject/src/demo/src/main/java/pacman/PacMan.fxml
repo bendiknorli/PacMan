@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+<HBox onKeyPressed="#keyPressed" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pacman.PacManController">
+    <Pane fx:id="board" prefHeight="325.0" prefWidth="469.0" />
+</HBox>

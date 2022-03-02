@@ -1,4 +1,4 @@
-package PacMan.Code;
+package pacman;
 
 import java.util.ArrayList;
 
