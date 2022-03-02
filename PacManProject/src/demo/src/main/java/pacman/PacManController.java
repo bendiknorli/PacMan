@@ -34,7 +34,7 @@ public class PacManController {
             public void handle(long currentNanoTime) {
                 double t = ((currentNanoTime - startNanoTime) / 1000000000.0) - timePassed;
                 if (t > 1) {
-                    timePassed += 0.15;
+                    timePassed += 0.2;
                     game.moveSnake(direction);
                     updateBoard();
                 }
@@ -50,7 +50,7 @@ public class PacManController {
                 if (game.getTile(x, y).isApple())
                     color = Color.RED;
                 else if (game.getTile(x, y).isSnake()) {
-                    color = Color.BLACK;
+                    color = Color.YELLOW;
                 } else if ((x + y) % 2 == 0) {
                     color = Color.GRAY;
                 }

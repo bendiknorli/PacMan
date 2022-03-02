@@ -9,11 +9,7 @@ public class Game {
 
     private ArrayList<ArrayList<Integer>> snakePos = new ArrayList<>();
 
-    private int[] lastSnakePartPos = { 0, 0 };
-    private String oppositeDirection = "left";
-    private String lastDirection = "right";
-
-    private boolean alive = true;
+    private ArrayList<Integer> lastPos = new ArrayList<>();
 
     private Tile[][] board;
 
@@ -31,9 +27,10 @@ public class Game {
         snakeHead.add(snakeStartY);
         snakePos.add(snakeHead);
 
-        lastSnakePartPos[0] = snakeStartX;
-        lastSnakePartPos[1] = snakeStartY;
-        addSnakePart();
+        lastPos.add(1);
+        lastPos.add(1);
+
+        System.out.println(snakePos);
 
         board = new Tile[numYTiles][numXTiles];
         for (int y = 0; y < numYTiles; y++) {
@@ -56,24 +53,13 @@ public class Game {
         board[randomY][randomX].setApple(true);
     }
 
-    public void addSnakePart() {
-        ArrayList<Integer> newSnakePart = new ArrayList<>();
-        newSnakePart.add(lastSnakePartPos[0]);
-        newSnakePart.add(lastSnakePartPos[1]);
-        snakePos.add(newSnakePart);
-    }
-
     public void placeSnake() {
-        int i = 0;
-        while (i < snakePos.size()) {
-            if (board[snakePos.get(i).get(0)][snakePos.get(i).get(1)].isApple()) {
-                board[snakePos.get(i).get(0)][snakePos.get(i).get(1)].setApple(false);
-                placeApple();
-                addSnakePart();
-            }
-            board[snakePos.get(i).get(0)][snakePos.get(i).get(1)].setSnake(true);
-            i++;
+        if (board[snakePos.get(0).get(0)][snakePos.get(0).get(1)].isApple()) {
+            board[snakePos.get(0).get(0)][snakePos.get(0).get(1)].setApple(false);
+            placeApple();
         }
+        board[lastPos.get(0)][lastPos.get(1)].setSnake(false);
+        board[snakePos.get(0).get(0)][snakePos.get(0).get(1)].setSnake(true);
     }
 
     public Tile getTile(int xPos, int yPos) {
@@ -81,76 +67,27 @@ public class Game {
     }
 
     public void moveSnake(String direction) {
-        if (!alive)
-            return;
-        if (direction == oppositeDirection)
-            direction = lastDirection;
+        lastPos.set(0, snakePos.get(0).get(0));
+        lastPos.set(1, snakePos.get(0).get(1));
+
         try {
             switch (direction) {
                 case "up":
-                    if (getTile(snakePos.get(0).get(1), snakePos.get(0).get(0) - 1).isSnake()) {
-                        alive = false;
-                        System.out.println(
-                                "U DED because " + snakePos.get(0).get(1) + " " + (snakePos.get(0).get(0) - 1));
-                    }
-                    snakeBodyFollow();
                     snakePos.get(0).set(0, snakePos.get(0).get(0) - 1);
-                    oppositeDirection = "down";
                     break;
                 case "down":
-                    if (getTile(snakePos.get(0).get(1), snakePos.get(0).get(0) + 1).isSnake()) {
-                        alive = false;
-                        System.out.println(
-                                "U DED because " + snakePos.get(0).get(1) + " " + (snakePos.get(0).get(0) + 1));
-                        ;
-                    }
-                    snakeBodyFollow();
                     snakePos.get(0).set(0, snakePos.get(0).get(0) + 1);
-                    oppositeDirection = "up";
                     break;
                 case "left":
-                    if (getTile(snakePos.get(0).get(1) - 1, snakePos.get(0).get(0)).isSnake()) {
-                        alive = false;
-                        System.out.println(
-                                "U DED because " + (snakePos.get(0).get(1) - 1) + " " + snakePos.get(0).get(0));
-                    }
-                    snakeBodyFollow();
                     snakePos.get(0).set(1, snakePos.get(0).get(1) - 1);
-                    oppositeDirection = "right";
                     break;
                 case "right":
-                    if (getTile(snakePos.get(0).get(1) + 1, snakePos.get(0).get(0)).isSnake()) {
-                        alive = false;
-                        System.out.println(
-                                "U DED because " + (snakePos.get(0).get(1) - 1) + " " + snakePos.get(0).get(0));
-                    }
-                    snakeBodyFollow();
                     snakePos.get(0).set(1, snakePos.get(0).get(1) + 1);
-                    oppositeDirection = "left";
                     break;
             }
         } catch (Exception e) {
-            alive = false;
             System.out.println("U DED because out of map");
         }
         placeSnake();
-        lastDirection = direction;
-    }
-
-    public void snakeBodyFollow() {
-        lastSnakePartPos = new int[] { snakePos.get(0).get(0), snakePos.get(0).get(1) };
-        int[] thisSnakePartPos = new int[] { 0, 0 };
-        for (int i = 1; i < snakePos.size(); i++) {
-            thisSnakePartPos[0] = lastSnakePartPos[0];
-            thisSnakePartPos[1] = lastSnakePartPos[1];
-
-            lastSnakePartPos[0] = snakePos.get(i).get(0);
-            lastSnakePartPos[1] = snakePos.get(i).get(1);
-
-            snakePos.get(i).set(0, thisSnakePartPos[0]);
-            snakePos.get(i).set(1, thisSnakePartPos[1]);
-
-            board[lastSnakePartPos[0]][lastSnakePartPos[1]].setSnake(false);
-        }
     }
 }
