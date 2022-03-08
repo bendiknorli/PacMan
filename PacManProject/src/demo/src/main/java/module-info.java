@@ -3,5 +3,6 @@ module pacman {
     requires javafx.fxml;
 
     opens pacman to javafx.fxml;
+
     exports pacman;
 }

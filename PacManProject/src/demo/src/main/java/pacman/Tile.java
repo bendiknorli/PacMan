@@ -2,10 +2,10 @@ package pacman;
 
 public class Tile {
 
-    private boolean isSnake, isApple;
+    private boolean isPacMan, isApple;
 
-    public boolean isSnake() {
-        return isSnake;
+    public boolean isPacMan() {
+        return isPacMan;
     }
 
     public boolean isApple() {
@@ -16,7 +16,7 @@ public class Tile {
         this.isApple = isApple;
     }
 
-    public void setSnake(boolean isSnake) {
-        this.isSnake = isSnake;
+    public void setPacMan(boolean isPacMan) {
+        this.isPacMan = isPacMan;
     }
 }

@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class Game {
     private int numXTiles, numYTiles;
 
-    private int snakeStartX = 1, snakeStartY = 1;
+    private int pacManStartX = 1, pacManStartY = 1;
 
-    private ArrayList<ArrayList<Integer>> snakePos = new ArrayList<>();
+    private ArrayList<Integer> pacManPos = new ArrayList<>();
 
     private ArrayList<Integer> lastPos = new ArrayList<>();
 
@@ -22,15 +22,11 @@ public class Game {
 
     private void initialize(int numXTiles, int numYTiles) {
 
-        ArrayList<Integer> snakeHead = new ArrayList<>();
-        snakeHead.add(snakeStartX);
-        snakeHead.add(snakeStartY);
-        snakePos.add(snakeHead);
+        pacManPos.add(pacManStartX);
+        pacManPos.add(pacManStartY);
 
-        lastPos.add(1);
-        lastPos.add(1);
-
-        System.out.println(snakePos);
+        lastPos.add(pacManStartX);
+        lastPos.add(pacManStartY);
 
         board = new Tile[numYTiles][numXTiles];
         for (int y = 0; y < numYTiles; y++) {
@@ -39,7 +35,7 @@ public class Game {
             }
         }
         placeApple();
-        placeSnake();
+        placePacMan();
     }
 
     public void placeApple() {
@@ -48,46 +44,46 @@ public class Game {
         do {
             randomY = ((int) (Math.random() * numYTiles));
             randomX = ((int) (Math.random() * numXTiles));
-        } while (board[randomY][randomX].isSnake());
+        } while (board[randomY][randomX].isPacMan());
 
         board[randomY][randomX].setApple(true);
     }
 
-    public void placeSnake() {
-        if (board[snakePos.get(0).get(0)][snakePos.get(0).get(1)].isApple()) {
-            board[snakePos.get(0).get(0)][snakePos.get(0).get(1)].setApple(false);
+    public void placePacMan() {
+        if (board[pacManPos.get(0)][pacManPos.get(1)].isApple()) {
+            board[pacManPos.get(0)][pacManPos.get(1)].setApple(false);
             placeApple();
         }
-        board[lastPos.get(0)][lastPos.get(1)].setSnake(false);
-        board[snakePos.get(0).get(0)][snakePos.get(0).get(1)].setSnake(true);
+        board[lastPos.get(0)][lastPos.get(1)].setPacMan(false);
+        board[pacManPos.get(0)][pacManPos.get(1)].setPacMan(true);
     }
 
     public Tile getTile(int xPos, int yPos) {
         return board[yPos][xPos];
     }
 
-    public void moveSnake(String direction) {
-        lastPos.set(0, snakePos.get(0).get(0));
-        lastPos.set(1, snakePos.get(0).get(1));
+    public void movePacMan(String direction) {
+        lastPos.set(0, pacManPos.get(0));
+        lastPos.set(1, pacManPos.get(1));
 
         try {
             switch (direction) {
                 case "up":
-                    snakePos.get(0).set(0, snakePos.get(0).get(0) - 1);
+                    pacManPos.set(0, pacManPos.get(0) - 1);
                     break;
                 case "down":
-                    snakePos.get(0).set(0, snakePos.get(0).get(0) + 1);
+                    pacManPos.set(0, pacManPos.get(0) + 1);
                     break;
                 case "left":
-                    snakePos.get(0).set(1, snakePos.get(0).get(1) - 1);
+                    pacManPos.set(1, pacManPos.get(1) - 1);
                     break;
                 case "right":
-                    snakePos.get(0).set(1, snakePos.get(0).get(1) + 1);
+                    pacManPos.set(1, pacManPos.get(1) + 1);
                     break;
             }
+            placePacMan();
         } catch (Exception e) {
             System.out.println("U DED because out of map");
         }
-        placeSnake();
     }
 }
