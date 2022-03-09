@@ -17,9 +17,11 @@ public class PacManController {
 
     private Game game;
 
-    private int numXTiles = 10, numYTiles = 10;
+    private int numXTiles = 8, numYTiles = 8;
 
     private String direction = "right";
+
+    private boolean pacManToMove;
 
     @FXML
     public void initialize() {
@@ -34,9 +36,15 @@ public class PacManController {
             public void handle(long currentNanoTime) {
                 double t = ((currentNanoTime - startNanoTime) / 1000000000.0) - timePassed;
                 if (t > 1) {
-                    timePassed += 0.2;
-                    game.movePacMan(direction);
+                    if (pacManToMove)
+                        game.movePacMan(direction);
+                    else
+                        game.moveGhosts();
+
+                    pacManToMove = !pacManToMove;
+                    timePassed += 0.1;
                     updateBoard();
+                    ;
                 }
             }
         }.start();
@@ -46,13 +54,17 @@ public class PacManController {
         for (int y = 0; y < numYTiles; y++) {
             for (int x = 0; x < numXTiles; x++) {
                 Pane newPane = new Pane();
-                Color color = Color.LIGHTGRAY;
-                if (game.getTile(x, y).isApple())
-                    color = Color.RED;
+                Color color = Color.BLACK;
+                if (game.getTile(x, y).isPacMan() && game.getTile(x, y).isGhost())
+                    System.out.println("U DED");
                 else if (game.getTile(x, y).isPacMan()) {
                     color = Color.YELLOW;
-                } else if ((x + y) % 2 == 0) {
-                    color = Color.GRAY;
+                } else if (game.getTile(x, y).isGhost()) {
+                    color = Color.PURPLE;
+                } else if (game.getTile(x, y).isCoin()) {
+                    color = Color.ORANGE;
+                } else if (game.getTile(x, y).isCorridor()) {
+                    color = Color.BLUE;
                 }
 
                 newPane.setBackground(
@@ -63,6 +75,7 @@ public class PacManController {
                 board.getChildren().add(newPane);
             }
         }
+
     }
 
     @FXML
@@ -82,6 +95,8 @@ public class PacManController {
             case DOWN:
                 direction = "down";
                 break;
+            case K:
+                game.moveGhosts();
             default:
                 break;
         }
