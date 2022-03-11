@@ -17,7 +17,7 @@ public class PacManController {
 
     private Game game;
 
-    private int numXTiles = 8, numYTiles = 8;
+    private int numXTiles = 20, numYTiles = 20;
 
     private String direction = "right";
 

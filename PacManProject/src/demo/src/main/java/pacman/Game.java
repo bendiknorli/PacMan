@@ -34,13 +34,6 @@ public class Game {
         lastPos.add(pacManStartX);
         lastPos.add(pacManStartY);
 
-        Character character1 = new Character(new int[] { 1, 2 }, "purpleGhost");
-        characters.add(character1);
-        Character character2 = new Character(new int[] { 1, 3 }, "purpleGhost");
-        characters.add(character2);
-        Character character3 = new Character(new int[] { 1, 4 }, "purpleGhost");
-        characters.add(character3);
-
         // ArrayList<Integer> ghostPos = new ArrayList<>();
         // ghostPos.add(0);
         // ghostPos.add(0);
@@ -61,13 +54,17 @@ public class Game {
 
     public void placeMap() {
         for (int y = 1; y < numYTiles - 1; y++) {
+            if (y % 5 == 0) {
+                Character character = new Character(new int[] { numYTiles - 2, numXTiles - 2 }, "purpleGhost");
+                characters.add(character);
+            }
             for (int x = 1; x < numXTiles - 1; x++) {
                 if (x == 1 || x % 5 == 0 || x == numXTiles - 2) {
                     if ((x + y) % 2 == 0)
                         board[y][x].setCoin(true);
-                    if (y == 1 || y % 6 == 0 || y == numYTiles - 2)
+                    if (y == 1 || y % 6 == 0 || y == numYTiles - 2) {
                         board[y][x].setCorner(true);
-                    else
+                    } else
                         board[y][x].setCorridor(true);
                 }
                 if (y == 1 || y % 6 == 0 || y == numYTiles - 2) {
