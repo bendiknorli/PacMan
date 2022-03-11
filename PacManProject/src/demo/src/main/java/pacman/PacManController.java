@@ -61,8 +61,6 @@ public class PacManController {
                     color = Color.YELLOW;
                 } else if (game.getTile(x, y).isGhost()) {
                     color = Color.PURPLE;
-                } else if (game.getTile(x, y).isCoin()) {
-                    color = Color.ORANGE;
                 } else if (game.getTile(x, y).isCorridor()) {
                     color = Color.BLUE;
                 }
@@ -73,6 +71,17 @@ public class PacManController {
                 newPane.setTranslateY(y * 20);
                 newPane.setPrefSize(20, 20);
                 board.getChildren().add(newPane);
+
+                if (game.getTile(x, y).isCoin()) {
+                    Pane coinPane = new Pane();
+                    Color coinColor = Color.ORANGE;
+                    coinPane.setBackground(
+                            new Background(new BackgroundFill(coinColor, CornerRadii.EMPTY, Insets.EMPTY)));
+                    coinPane.setTranslateX(x * 20 + 5);
+                    coinPane.setTranslateY(y * 20 + 5);
+                    coinPane.setPrefSize(10, 10);
+                    board.getChildren().add(coinPane);
+                }
             }
         }
 
