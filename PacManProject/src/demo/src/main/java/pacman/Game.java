@@ -9,12 +9,15 @@ public class Game {
     private int numXTiles, numYTiles;
 
     private int pacManStartX = 1, pacManStartY = 1;
+    private boolean pacManToMove;
 
     private ArrayList<Integer> pacManPos = new ArrayList<>();
     private ArrayList<Integer> lastPos = new ArrayList<>();
     private String lastDirection = "right";
 
     private int coins = 0;
+
+    private int secondsSinceEatenCherry = 0;
 
     // public ArrayList<ArrayList<Integer>> ghostsPos = new ArrayList<>();
 
@@ -91,7 +94,39 @@ public class Game {
         return false;
     }
 
+    public void moveAll(String direction) {
+        if (board[pacManPos.get(0)][pacManPos.get(1)].isGhost() && secondsSinceEatenCherry == 0) {
+            System.out.println("U DED");
+        } else if (board[pacManPos.get(0)][pacManPos.get(1)].isGhost() && secondsSinceEatenCherry != 0) {
+            coins += 1000;
+            System.out.println("GHOSTBUSTER");
+            for (Character character : characters) {
+                if (character.getPosition()[0] == pacManPos.get(0) &&
+                        character.getPosition()[1] == pacManPos.get(1)) {
+                    characters.remove(character);
+                    board[pacManPos.get(0)][pacManPos.get(1)].setGhost(false);
+                    return;
+                }
+            }
+        }
+        if (board[pacManPos.get(0)][pacManPos.get(1)].isCherry()) {
+            board[pacManPos.get(0)][pacManPos.get(1)].setCherry(false);
+            secondsSinceEatenCherry = 200;
+        }
+        if (pacManToMove)
+            movePacMan(direction);
+        else
+            moveGhosts();
+
+        pacManToMove = !pacManToMove;
+    }
+
     public void moveGhosts() {
+        if (secondsSinceEatenCherry != 0) {
+            secondsSinceEatenCherry--;
+            Character.setColor(Color.DARKBLUE);
+        } else
+            Character.setColor(Color.PURPLE);
         for (Character character : characters) {
             if (board[character.getPosition()[0]][character.getPosition()[1]].isCorner()) {
                 ArrayList<String> possibleDirections = new ArrayList<>();
@@ -137,10 +172,6 @@ public class Game {
             coins++;
             if (!areCoinsLeft())
                 System.out.println("W");
-        }
-        if (board[pacManPos.get(0)][pacManPos.get(1)].isCherry()) {
-            board[pacManPos.get(0)][pacManPos.get(1)].setCherry(false);
-            Character.setColor(Color.DARKBLUE);
         }
         board[lastPos.get(0)][lastPos.get(1)].setPacMan(false);
         board[pacManPos.get(0)][pacManPos.get(1)].setPacMan(true);

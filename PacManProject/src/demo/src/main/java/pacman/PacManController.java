@@ -25,8 +25,6 @@ public class PacManController {
 
     private String direction = "right";
 
-    private boolean pacManToMove;
-
     @FXML
     public void initialize() {
         this.game = new Game(numXTiles, numYTiles);
@@ -40,13 +38,8 @@ public class PacManController {
             public void handle(long currentNanoTime) {
                 double t = ((currentNanoTime - startNanoTime) / 1000000000.0) - timePassed;
                 if (t > 1) {
-                    if (pacManToMove)
-                        game.movePacMan(direction);
-                    else
-                        game.moveGhosts();
-
-                    pacManToMove = !pacManToMove;
-                    timePassed += 0.1;
+                    game.moveAll(direction);
+                    timePassed += 0.08;
                     updateBoard();
                 }
             }
@@ -60,18 +53,18 @@ public class PacManController {
             for (int x = 0; x < numXTiles; x++) {
                 Pane newPane = new Pane();
                 Color color = Color.BLACK;
-                if (game.getTile(x, y).isPacMan() && game.getTile(x, y).isGhost())
-                    System.out.println("U DED");
-                else if (game.getTile(x, y).isPacMan()) {
-                    color = Color.YELLOW;
-                } else if (game.getTile(x, y).isGhost()) {
-                    color = Character.getColor();
-                } else if (game.getTile(x, y).isCherry()) {
-                    color = Color.RED;
-                } else if (game.getTile(x, y).isCorridor()) {
-                    color = Color.BLUE;
-                } else
-                    continue;
+                if (!(game.getTile(x, y).isPacMan() && game.getTile(x, y).isGhost())) {
+                    if (game.getTile(x, y).isPacMan()) {
+                        color = Color.YELLOW;
+                    } else if (game.getTile(x, y).isGhost()) {
+                        color = Character.getColor();
+                    } else if (game.getTile(x, y).isCherry()) {
+                        color = Color.RED;
+                    } else if (game.getTile(x, y).isCorridor()) {
+                        color = Color.BLUE;
+                    } else
+                        continue;
+                }
 
                 newPane.setBackground(
                         new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));

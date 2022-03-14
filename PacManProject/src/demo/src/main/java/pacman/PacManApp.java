@@ -13,6 +13,7 @@ public class PacManApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         scene.getRoot().requestFocus();
+
     }
 
     public static void main(final String[] args) {
