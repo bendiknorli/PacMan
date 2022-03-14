@@ -3,6 +3,8 @@ package pacman;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javafx.scene.paint.Color;
+
 public class Game {
     private int numXTiles, numYTiles;
 
@@ -60,16 +62,18 @@ public class Game {
             }
             for (int x = 1; x < numXTiles - 1; x++) {
                 if (x == 1 || x % 5 == 0 || x == numXTiles - 2) {
-                    if ((x + y) % 2 == 0)
+                    if (x == numXTiles / 2 && y == numYTiles - 2)
+                        board[y][x].setCherry(true);
+                    else if ((x + y) % 2 == 0)
                         board[y][x].setCoin(true);
-                    if (y == 1 || y % 6 == 0 || y == numYTiles - 2) {
+                    if (y == 1 || y % 6 == 0 || y == numYTiles - 2)
                         board[y][x].setCorner(true);
-                    } else
+                    else
                         board[y][x].setCorridor(true);
                 }
                 if (y == 1 || y % 6 == 0 || y == numYTiles - 2) {
                     board[y][x].setCorridor(true);
-                    if ((x + y) % 2 == 0)
+                    if ((x + y) % 2 == 0 && !board[y][x].isCherry())
                         board[y][x].setCoin(true);
                 }
             }
@@ -133,6 +137,10 @@ public class Game {
             coins++;
             if (!areCoinsLeft())
                 System.out.println("W");
+        }
+        if (board[pacManPos.get(0)][pacManPos.get(1)].isCherry()) {
+            board[pacManPos.get(0)][pacManPos.get(1)].setCherry(false);
+            Character.setColor(Color.DARKBLUE);
         }
         board[lastPos.get(0)][lastPos.get(1)].setPacMan(false);
         board[pacManPos.get(0)][pacManPos.get(1)].setPacMan(true);

@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
 
-<HBox onKeyPressed="#keyPressed" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pacman.PacManController">
-    <Pane fx:id="board" prefHeight="325.0" prefWidth="469.0" />
+<HBox onKeyPressed="#keyPressed" prefHeight="420.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pacman.PacManController">
+   <Pane fx:id="board1" layoutX="10.0" layoutY="10.0" prefHeight="350.0" prefWidth="480.0" style="-fx-background-color: black;">
+      <children>
+          <Pane fx:id="board" layoutY="27.0" prefHeight="394.0" prefWidth="420.0" style="-fx-background-color: black;" />
+         <Text fill="WHITE" layoutX="14.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SCORE:" />
+         <Text fx:id="score" fill="WHITE" layoutX="54.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+      </children>
+   </Pane>
 </HBox>

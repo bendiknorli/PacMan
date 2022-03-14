@@ -10,10 +10,14 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 public class PacManController {
     @FXML
     Pane board;
+
+    @FXML
+    Text score;
 
     private Game game;
 
@@ -44,13 +48,14 @@ public class PacManController {
                     pacManToMove = !pacManToMove;
                     timePassed += 0.1;
                     updateBoard();
-                    ;
                 }
             }
         }.start();
     }
 
     public void updateBoard() {
+        board.getChildren().clear();
+        score.setText(Integer.toString(game.getCoins()));
         for (int y = 0; y < numYTiles; y++) {
             for (int x = 0; x < numXTiles; x++) {
                 Pane newPane = new Pane();
@@ -60,10 +65,13 @@ public class PacManController {
                 else if (game.getTile(x, y).isPacMan()) {
                     color = Color.YELLOW;
                 } else if (game.getTile(x, y).isGhost()) {
-                    color = Color.PURPLE;
+                    color = Character.getColor();
+                } else if (game.getTile(x, y).isCherry()) {
+                    color = Color.RED;
                 } else if (game.getTile(x, y).isCorridor()) {
                     color = Color.BLUE;
-                }
+                } else
+                    continue;
 
                 newPane.setBackground(
                         new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));

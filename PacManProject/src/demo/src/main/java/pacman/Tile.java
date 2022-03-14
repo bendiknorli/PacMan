@@ -2,7 +2,7 @@ package pacman;
 
 public class Tile {
 
-    private boolean isPacMan, isApple, isCorridor, isCorner, isGhost, isCoin;
+    private boolean isPacMan, isApple, isCorridor, isCorner, isGhost, isCoin, isCherry;
 
     public boolean isPacMan() {
         return isPacMan;
@@ -28,6 +28,10 @@ public class Tile {
         return isCoin;
     }
 
+    public boolean isCherry() {
+        return isCherry;
+    }
+
     public void setApple(boolean isApple) {
         this.isApple = isApple;
     }
@@ -51,5 +55,9 @@ public class Tile {
 
     public void setCoin(boolean isCoin) {
         this.isCoin = isCoin;
+    }
+
+    public void setCherry(boolean isCherry) {
+        this.isCherry = isCherry;
     }
 }
