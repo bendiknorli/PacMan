@@ -111,7 +111,7 @@ public class Game {
         }
         if (board[pacManPos.get(0)][pacManPos.get(1)].isCherry()) {
             board[pacManPos.get(0)][pacManPos.get(1)].setCherry(false);
-            secondsSinceEatenCherry = 200;
+            secondsSinceEatenCherry = 50;
         }
         if (pacManToMove)
             movePacMan(direction);
