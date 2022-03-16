@@ -19,6 +19,8 @@ public class Game {
 
     private int secondsSinceEatenCherry = 0;
 
+    private boolean isAlive = true;
+
     // public ArrayList<ArrayList<Integer>> ghostsPos = new ArrayList<>();
 
     public ArrayList<Character> characters = new ArrayList<>();
@@ -96,9 +98,9 @@ public class Game {
 
     public void moveAll(String direction) {
         if (board[pacManPos.get(0)][pacManPos.get(1)].isGhost() && secondsSinceEatenCherry == 0) {
-            System.out.println("U DED");
+            isAlive = false;
         } else if (board[pacManPos.get(0)][pacManPos.get(1)].isGhost() && secondsSinceEatenCherry != 0) {
-            coins += 1000;
+            coins += 10;
             System.out.println("GHOSTBUSTER");
             for (Character character : characters) {
                 if (character.getPosition()[0] == pacManPos.get(0) &&
@@ -211,5 +213,9 @@ public class Game {
             pacManPos.set(1, lastPos.get(1));
             direction = lastDirection;
         }
+    }
+
+    public boolean isAlive() {
+        return isAlive;
     }
 }

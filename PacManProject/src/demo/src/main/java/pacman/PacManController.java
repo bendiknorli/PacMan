@@ -3,6 +3,9 @@ package pacman;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
@@ -21,7 +24,7 @@ public class PacManController {
 
     private Game game;
 
-    private int numXTiles = 20, numYTiles = 20;
+    private int numXTiles = 15, numYTiles = 15;
 
     private String direction = "right";
 
@@ -30,12 +33,13 @@ public class PacManController {
     public void initialize() {
         // lager et gameobjekt og tegner brettet
         this.game = new Game(numXTiles, numYTiles);
-        updateBoard();
+        updateBoard(null);
+        direction = "right";
 
         final long startNanoTime = System.nanoTime();
 
         // denne kjører hver frame
-        new AnimationTimer() {
+        AnimationTimer t = new AnimationTimer() {
             double timePassed = 0;
 
             public void handle(long currentNanoTime) {
@@ -48,15 +52,36 @@ public class PacManController {
                     // sier at det er 0.08 sekunder til neste gang noen skal bevege seg
                     timePassed += 0.08;
                     // etter at man har endret karakterposisjoner tegner man brettet på nytt
-                    updateBoard();
+                    updateBoard(this);
                 }
             }
-        }.start();
+        };
+        t.start();
     }
 
-    public void updateBoard() {
+    public void updateBoard(AnimationTimer t) {
         // sletter hele brettet
         board.getChildren().clear();
+
+        if (!game.areCoinsLeft()) {
+            Alert wonGame = new Alert(AlertType.INFORMATION);
+            wonGame.setTitle("Du vant!");
+            wonGame.setHeaderText("Du samlet alle myntene på spillerbrettet");
+            wonGame.setContentText("Trykk OK for å restarte spillet");
+            wonGame.setOnHidden(evt -> initialize());
+            t.stop();
+            wonGame.show();
+        }
+
+        if (!game.isAlive()) {
+            Alert wonGame = new Alert(AlertType.INFORMATION);
+            wonGame.setTitle("Du suger!");
+            wonGame.setHeaderText("Du ble drept av et spøkelse");
+            wonGame.setContentText("Trykk OK for å restarte spillet");
+            wonGame.setOnHidden(evt -> initialize());
+            t.stop();
+            wonGame.show();
+        }
 
         // skriver hvor mange coins man har samlet
         score.setText(Integer.toString(game.getCoins()));
@@ -131,8 +156,6 @@ public class PacManController {
             case DOWN:
                 direction = "down";
                 break;
-            case K:
-                game.moveGhosts();
             default:
                 break;
         }
