@@ -218,4 +218,17 @@ public class Game {
     public boolean isAlive() {
         return isAlive;
     }
+
+    // public void save() throws IOException {
+    // BufferedWriter writer = new BufferedWriter(new FileWriter("Fil.txt"));
+    // writer.write("to", 5, 10);
+    // writer.close();
+    // }
+
+    // public Game load() throws IOException {
+    // BufferedReader reader = new BufferedReader(new FileReader("Fil.txt"));
+    // String currentLine = reader.readLine();
+    // reader.close();
+    // return new Game(0, 0);
+    // }
 }
