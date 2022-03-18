@@ -23,7 +23,7 @@ public class PacManController {
 
     private Game game;
 
-    private int numXTiles = 15, numYTiles = 15;
+    private int numXTiles = 20, numYTiles = 20;
 
     private String direction = "right";
 
@@ -73,13 +73,13 @@ public class PacManController {
         }
 
         if (!game.isAlive()) {
-            Alert wonGame = new Alert(AlertType.INFORMATION);
-            wonGame.setTitle("Du suger!");
-            wonGame.setHeaderText("Du ble drept av et spøkelse");
-            wonGame.setContentText("Trykk OK for å restarte spillet");
-            wonGame.setOnHidden(evt -> initialize());
+            Alert lostGame = new Alert(AlertType.INFORMATION);
+            lostGame.setTitle("Du suger!");
+            lostGame.setHeaderText("Du ble drept av et spøkelse");
+            lostGame.setContentText("Trykk OK for å restarte spillet");
+            lostGame.setOnHidden(evt -> initialize());
             t.stop();
-            wonGame.show();
+            lostGame.show();
         }
 
         // skriver hvor mange coins man har samlet
