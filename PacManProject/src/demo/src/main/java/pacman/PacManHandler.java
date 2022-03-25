@@ -63,19 +63,19 @@ public class PacManHandler implements IPacManSaveLoad {
                 // tile.setCherry(Boolean.parseBoolean(properties[5]));
 
                 if (currentColumn < numYTiles) {
-                    System.out.println("row: " + currentRow + " col: " + currentColumn);
+                    // System.out.println("row: " + currentRow + " col: " + currentColumn);
                     // System.out.println("Byttet properties til tile");
                     if (Boolean.parseBoolean(properties[0])) {
                         System.out.println("Fant pacman " + properties[0]);
                         game.setPacManPos(currentRow, currentColumn);
                     }
-                    board[currentRow][currentColumn].setPacMan(Boolean.parseBoolean(properties[0]));
-                    board[currentRow][currentColumn].setCorridor(Boolean.parseBoolean(properties[1]));
-                    board[currentRow][currentColumn].setCorner(Boolean.parseBoolean(properties[2]));
-                    board[currentRow][currentColumn].setCoin(Boolean.parseBoolean(properties[3]));
-                    board[currentRow][currentColumn].setGhost(Boolean.parseBoolean(properties[4]));
-                    board[currentRow][currentColumn].setCherry(Boolean.parseBoolean(properties[5]));
-                    currentColumn++;
+                    // board[currentRow][currentColumn].setPacMan(Boolean.parseBoolean(properties[0]));
+                    // board[currentRow][currentColumn].setCorridor(Boolean.parseBoolean(properties[1]));
+                    // board[currentRow][currentColumn].setCorner(Boolean.parseBoolean(properties[2]));
+                    // board[currentRow][currentColumn].setCoin(Boolean.parseBoolean(properties[3]));
+                    // board[currentRow][currentColumn].setGhost(Boolean.parseBoolean(properties[4]));
+                    // board[currentRow][currentColumn].setCherry(Boolean.parseBoolean(properties[5]));
+                    // currentColumn++;
                 } else {
                     currentColumn = 0;
                     currentRow++;
