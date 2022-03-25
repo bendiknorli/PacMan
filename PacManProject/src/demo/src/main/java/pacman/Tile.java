@@ -2,14 +2,10 @@ package pacman;
 
 public class Tile {
 
-    private boolean isPacMan, isApple, isCorridor, isCorner, isGhost, isCoin, isCherry;
+    private boolean isPacMan, isCorridor, isCorner, isGhost, isCoin, isCherry;
 
     public boolean isPacMan() {
         return isPacMan;
-    }
-
-    public boolean isApple() {
-        return isApple;
     }
 
     public boolean isCorridor() {
@@ -30,10 +26,6 @@ public class Tile {
 
     public boolean isCherry() {
         return isCherry;
-    }
-
-    public void setApple(boolean isApple) {
-        this.isApple = isApple;
     }
 
     public void setPacMan(boolean isPacMan) {
@@ -59,5 +51,9 @@ public class Tile {
 
     public void setCherry(boolean isCherry) {
         this.isCherry = isCherry;
+    }
+
+    public String toString() {
+        return "PacMan: " + isPacMan + " Corridor: " + isCorridor + " Corner: " + isCorner;
     }
 }

@@ -1,5 +1,6 @@
 package pacman;
 
+import java.io.FileNotFoundException;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -29,9 +30,16 @@ public class PacManController {
 
     // initialize betyr at koden kjører på start
     @FXML
-    public void initialize() {
+    public void initialize() throws FileNotFoundException {
         // lager et gameobjekt og tegner brettet
-        this.game = new Game(numXTiles, numYTiles);
+
+        PacManHandler pacManHandler = new PacManHandler();
+        this.game = pacManHandler.readGame("Fil");
+        numXTiles = game.getBoard()[0].length;
+        numYTiles = game.getBoard().length;
+
+        // this.game = new Game(numXTiles, numYTiles);
+
         updateBoard(null);
         direction = "right";
 
@@ -47,11 +55,16 @@ public class PacManController {
                 double t = ((currentNanoTime - startNanoTime) / 1000000000.0) - timePassed;
                 // første gang man starter må det ha gått 1 sekund
                 if (t > 1) {
-                    game.moveAll(direction);
-                    // sier at det er 0.08 sekunder til neste gang noen skal bevege seg
-                    timePassed += 0.08;
-                    // etter at man har endret karakterposisjoner tegner man brettet på nytt
-                    updateBoard(this);
+                    try {
+                        game.moveAll(direction);
+                        // sier at det er 0.08 sekunder til neste gang noen skal bevege seg
+                        timePassed += 0.08;
+                        // etter at man har endret karakterposisjoner tegner man brettet på nytt
+                        updateBoard(this);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };
@@ -63,21 +76,37 @@ public class PacManController {
         board.getChildren().clear();
 
         if (!game.areCoinsLeft()) {
+            System.out.println("Det er ikke noen coins");
             Alert wonGame = new Alert(AlertType.INFORMATION);
             wonGame.setTitle("Du vant!");
             wonGame.setHeaderText("Du samlet alle myntene på spillerbrettet");
             wonGame.setContentText("Trykk OK for å restarte spillet");
-            wonGame.setOnHidden(evt -> initialize());
+            wonGame.setOnHidden(evt -> {
+                try {
+                    initialize();
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            });
             t.stop();
             wonGame.show();
         }
 
         if (!game.isAlive()) {
+            System.out.println("Pacman lever ikke");
             Alert lostGame = new Alert(AlertType.INFORMATION);
             lostGame.setTitle("Du suger!");
             lostGame.setHeaderText("Du ble drept av et spøkelse");
             lostGame.setContentText("Trykk OK for å restarte spillet");
-            lostGame.setOnHidden(evt -> initialize());
+            lostGame.setOnHidden(evt -> {
+                try {
+                    initialize();
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            });
             t.stop();
             lostGame.show();
         }
@@ -137,9 +166,10 @@ public class PacManController {
 
     }
 
-    //
+    // gjør at piltastene velger retningen som pacman kommer til å bevege seg
+    // neste gang moveAll - altså movePacMan kalles
     @FXML
-    private void keyPressed(KeyEvent keyEvent) {
+    private void keyPressed(KeyEvent keyEvent) throws FileNotFoundException {
         KeyCode code = keyEvent.getCode();
 
         switch (code) {
@@ -155,6 +185,10 @@ public class PacManController {
             case DOWN:
                 direction = "down";
                 break;
+            case K:
+                PacManHandler pacManHandler = new PacManHandler();
+                pacManHandler.loadGame("Fil", game);
+                System.out.println("Lagret spill");
             default:
                 break;
         }
