@@ -113,7 +113,13 @@ public class Game {
     // returnerer true hvis det fortsatt finnes coins
     // (brukes for å vite om spillet er over)
     public boolean areCoinsLeft() {
-        return coins > 0;
+        for (int y = 0; y < numYTiles; y++) {
+            for (int x = 0; x < numXTiles; x++) {
+                if (board[y][x].isCoin())
+                    return true;
+            }
+        }
+        return false;
     }
 
     // setter antall coins i spillet

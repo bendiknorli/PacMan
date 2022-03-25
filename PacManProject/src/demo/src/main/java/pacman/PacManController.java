@@ -33,12 +33,12 @@ public class PacManController {
     public void initialize() throws FileNotFoundException {
         // lager et gameobjekt og tegner brettet
 
-        PacManHandler pacManHandler = new PacManHandler();
-        this.game = pacManHandler.readGame("Fil");
-        numXTiles = game.getBoard()[0].length;
-        numYTiles = game.getBoard().length;
+        // PacManHandler pacManHandler = new PacManHandler();
+        // this.game = pacManHandler.readGame("Fil");
+        // numXTiles = game.getBoard()[0].length;
+        // numYTiles = game.getBoard().length;
 
-        // this.game = new Game(numXTiles, numYTiles);
+        this.game = new Game(numXTiles, numYTiles);
 
         updateBoard(null);
         direction = "right";
@@ -58,7 +58,7 @@ public class PacManController {
                     try {
                         game.moveAll(direction);
                         // sier at det er 0.08 sekunder til neste gang noen skal bevege seg
-                        timePassed += 0.08;
+                        timePassed += 0.01;
                         // etter at man har endret karakterposisjoner tegner man brettet på nytt
                         updateBoard(this);
 
@@ -75,7 +75,7 @@ public class PacManController {
         // sletter hele brettet
         board.getChildren().clear();
 
-        if (!game.areCoinsLeft()) {
+        if (!game.areCoinsLeft() && t != null) {
             System.out.println("Det er ikke noen coins");
             Alert wonGame = new Alert(AlertType.INFORMATION);
             wonGame.setTitle("Du vant!");
@@ -93,7 +93,7 @@ public class PacManController {
             wonGame.show();
         }
 
-        if (!game.isAlive()) {
+        if (!game.isAlive() && t != null) {
             System.out.println("Pacman lever ikke");
             Alert lostGame = new Alert(AlertType.INFORMATION);
             lostGame.setTitle("Du suger!");
@@ -108,7 +108,7 @@ public class PacManController {
                 }
             });
             t.stop();
-            lostGame.show();
+            // lostGame.show();
         }
 
         // skriver hvor mange coins man har samlet
@@ -184,6 +184,14 @@ public class PacManController {
                 break;
             case DOWN:
                 direction = "down";
+                break;
+            case G:
+                board.getChildren().clear();
+                break;
+            case H:
+                Game newGame = new Game(10, 10);
+                updateBoard(null);
+                direction = "right";
                 break;
             case K:
                 PacManHandler pacManHandler = new PacManHandler();
