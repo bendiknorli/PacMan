@@ -205,21 +205,27 @@ public class PacManController {
 
     @FXML
     public void makeNewGame() throws FileNotFoundException {
+        // lager et nytt spill
         Game newGame = new Game(20, 20);
+        // lagrer det nye spillet til Fil.txt
         pacManHandler.saveGame("Fil", newGame);
+        // laster inn spillet på nytt og siden spillet som er lagret er et nytt spill
+        // vil et nytt spill bli laget
         loadGame();
     }
 
     @FXML
     private void saveGame() throws FileNotFoundException {
+        // lagrer spillet til Fil.txt
         pacManHandler.saveGame("Fil", game);
         System.out.println("Lagret spill");
     }
 
     @FXML
     private void loadGame() throws FileNotFoundException {
+        // laster inn spillet på nytt
         initialize();
+        // stopper animationTimer for å ikke ha to animationTimere som kjører på en gang
         animationTimer.stop();
     }
-
 }

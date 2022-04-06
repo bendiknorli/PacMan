@@ -71,7 +71,6 @@ public class PacManHandler implements IPacManSaveLoad {
 
             game.setBoard(board);
             game.setCharacters(characters);
-            Game testGame = new Game(20, 20);
             return game;
         }
     }
