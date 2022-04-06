@@ -74,7 +74,7 @@ public class Game {
             // for hver femte rad på spillebrettet skal det lages et nytt spøkelse i den
             // siste Tilen på brettet
             if (y % 5 == 0) {
-                Character character = new Character(new int[] { numYTiles - 2, numXTiles - 2 }, "purpleGhost");
+                Character character = new Character(new int[] { numYTiles - 2, numXTiles - 2 });
                 characters.add(character);
             }
             for (int x = 1; x < numXTiles - 1; x++) {
@@ -82,7 +82,7 @@ public class Game {
 
                 // den første og siste kolonnen skal være korridorer samt hver femte kolonne
                 // alt inni her kjører derfor bare hvis det skal være en korridor
-                if (x == 1 || x % 5 == 0 || x == numXTiles - 2) {
+                if (x == 1 || (x % 5 == 0 && x < numXTiles - 3) || x == numXTiles - 2) {
                     // setter den nederste Tilen i midten (derfor delt på to) til en cherry
                     // vil denne alltid kjøre?
                     if (x == numXTiles / 2 && y == numYTiles - 2)
@@ -270,6 +270,10 @@ public class Game {
         return characters;
     }
 
+    public void setCharacters(ArrayList<Character> characters) {
+        this.characters = characters;
+    }
+
     public void movePacMan(String direction) {
         // lagrer den nåværende posisjonen til pacman
         lastPos.set(0, pacManPos.get(0));
@@ -304,8 +308,8 @@ public class Game {
     }
 
     public void setPacManPos(int currentRow, int currentColumn) {
-        pacManPos.set(0, currentColumn + 1);
-        pacManPos.set(1, currentRow + 1);
+        pacManPos.set(0, currentColumn);
+        pacManPos.set(1, currentRow);
         System.out.println("plasserte pacman på: " + pacManPos);
     }
 

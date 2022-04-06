@@ -4,13 +4,11 @@ import javafx.scene.paint.Color;
 
 public class Character {
 
-    private String type;
     private int[] position = { 0, 0 };
     private String direction = "right";
     private static Color color;
 
-    public Character(int[] position, String type) {
-        this.type = type;
+    public Character(int[] position) {
         this.position[0] = (position[0]);
         this.position[1] = (position[1]);
         color = Color.PURPLE;
@@ -24,10 +22,6 @@ public class Character {
         Character.color = color;
     }
 
-    public String getType() {
-        return type;
-    }
-
     public int[] getPosition() {
         return position;
     }
@@ -36,19 +30,11 @@ public class Character {
         return direction;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public void setPosition(int[] position) {
         this.position = position;
     }
 
     public void setDirection(String direction) {
         this.direction = direction;
-    }
-
-    public String toString() {
-        return this.getType();
     }
 }

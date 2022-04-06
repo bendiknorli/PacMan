@@ -4,8 +4,8 @@ import java.io.FileNotFoundException;
 
 public interface IPacManSaveLoad {
 
-    Game readGame(String filename) throws FileNotFoundException;
+    Game loadGame(String filename) throws FileNotFoundException;
 
-    void loadGame(String filename, Game game) throws FileNotFoundException;
+    void saveGame(String filename, Game game) throws FileNotFoundException;
 
 }

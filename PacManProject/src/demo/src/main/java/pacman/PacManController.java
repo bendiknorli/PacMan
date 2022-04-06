@@ -24,21 +24,25 @@ public class PacManController {
 
     private Game game;
 
-    private int numXTiles = 20, numYTiles = 20;
+    PacManHandler pacManHandler = new PacManHandler();
+
+    private int numXTiles, numYTiles;
 
     private String direction = "right";
+
+    private AnimationTimer animationTimer;
 
     // initialize betyr at koden kjører på start
     @FXML
     public void initialize() throws FileNotFoundException {
         // lager et gameobjekt og tegner brettet
 
-        // PacManHandler pacManHandler = new PacManHandler();
-        // this.game = pacManHandler.readGame("Fil");
-        // numXTiles = game.getBoard()[0].length;
-        // numYTiles = game.getBoard().length;
+        this.game = pacManHandler.loadGame("Fil");
+        numXTiles = game.getBoard()[0].length;
+        numYTiles = game.getBoard().length;
 
-        this.game = new Game(numXTiles, numYTiles);
+        // numXTiles = numYTiles = 20;
+        // this.game = new Game(numXTiles, numYTiles);
 
         updateBoard(null);
         direction = "right";
@@ -46,7 +50,7 @@ public class PacManController {
         final long startNanoTime = System.nanoTime();
 
         // denne kjører hver frame
-        AnimationTimer t = new AnimationTimer() {
+        animationTimer = new AnimationTimer() {
             double timePassed = 0;
 
             public void handle(long currentNanoTime) {
@@ -58,7 +62,7 @@ public class PacManController {
                     try {
                         game.moveAll(direction);
                         // sier at det er 0.08 sekunder til neste gang noen skal bevege seg
-                        timePassed += 0.01;
+                        timePassed += 0.1;
                         // etter at man har endret karakterposisjoner tegner man brettet på nytt
                         updateBoard(this);
 
@@ -68,7 +72,7 @@ public class PacManController {
                 }
             }
         };
-        t.start();
+        animationTimer.start();
     }
 
     public void updateBoard(AnimationTimer t) {
@@ -108,7 +112,7 @@ public class PacManController {
                 }
             });
             t.stop();
-            // lostGame.show();
+            lostGame.show();
         }
 
         // skriver hvor mange coins man har samlet
@@ -185,21 +189,37 @@ public class PacManController {
             case DOWN:
                 direction = "down";
                 break;
-            case G:
-                board.getChildren().clear();
-                break;
             case H:
-                Game newGame = new Game(10, 10);
-                updateBoard(null);
-                direction = "right";
+                makeNewGame();
+                break;
+            case J:
+                saveGame();
                 break;
             case K:
-                PacManHandler pacManHandler = new PacManHandler();
-                pacManHandler.loadGame("Fil", game);
-                System.out.println("Lagret spill");
+                loadGame();
             default:
                 break;
         }
         keyEvent.consume();
     }
+
+    @FXML
+    public void makeNewGame() throws FileNotFoundException {
+        Game newGame = new Game(20, 20);
+        pacManHandler.saveGame("Fil", newGame);
+        loadGame();
+    }
+
+    @FXML
+    private void saveGame() throws FileNotFoundException {
+        pacManHandler.saveGame("Fil", game);
+        System.out.println("Lagret spill");
+    }
+
+    @FXML
+    private void loadGame() throws FileNotFoundException {
+        initialize();
+        animationTimer.stop();
+    }
+
 }
