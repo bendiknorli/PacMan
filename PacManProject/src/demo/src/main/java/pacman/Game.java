@@ -15,7 +15,7 @@ public class Game {
     private ArrayList<Integer> lastPos = new ArrayList<>();
     private String lastDirection = "right";
 
-    private int coins = 1;
+    private int coins = 0;
 
     private int secondsSinceEatenCherry = 0;
 
@@ -274,6 +274,22 @@ public class Game {
         this.characters = characters;
     }
 
+    public String getLastDirection() {
+        return lastDirection;
+    }
+
+    public void setLastDirection(String lastDirection) {
+        this.lastDirection = lastDirection;
+    }
+
+    public int getSecondsSinceEatenCherry() {
+        return secondsSinceEatenCherry;
+    }
+
+    public void setSecondsSinceEatenCherry(int secondsSinceEatenCherry) {
+        this.secondsSinceEatenCherry = secondsSinceEatenCherry;
+    }
+
     public void movePacMan(String direction) {
         // lagrer den nåværende posisjonen til pacman
         lastPos.set(0, pacManPos.get(0));
@@ -310,7 +326,6 @@ public class Game {
     public void setPacManPos(int currentRow, int currentColumn) {
         pacManPos.set(0, currentColumn);
         pacManPos.set(1, currentRow);
-        System.out.println("plasserte pacman på: " + pacManPos);
     }
 
     // public void save() throws IOException {

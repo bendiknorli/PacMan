@@ -45,7 +45,7 @@ public class PacManController {
         // this.game = new Game(numXTiles, numYTiles);
 
         updateBoard(null);
-        direction = "right";
+        direction = game.getLastDirection();
 
         final long startNanoTime = System.nanoTime();
 
@@ -206,12 +206,47 @@ public class PacManController {
     @FXML
     public void makeNewGame() throws FileNotFoundException {
         // lager et nytt spill
-        Game newGame = new Game(20, 20);
         // lagrer det nye spillet til Fil.txt
-        pacManHandler.saveGame("Fil", newGame);
+        // pacManHandler.saveGame("Fil", newGame);
         // laster inn spillet på nytt og siden spillet som er lagret er et nytt spill
         // vil et nytt spill bli laget
-        loadGame();
+
+        numXTiles = 10;
+        numYTiles = 10;
+        this.game = new Game(numXTiles, numYTiles);
+
+        updateBoard(null);
+        direction = "right";
+
+        final long startNanoTime = System.nanoTime();
+
+        // denne kjører hver frame
+        animationTimer = new AnimationTimer() {
+            double timePassed = 0;
+
+            public void handle(long currentNanoTime) {
+                // denne teller antall nanosekunder fra start og minuser antall sekunder
+                // siden forrige gang man bevegde karakterer
+                double t = ((currentNanoTime - startNanoTime) / 1000000000.0) - timePassed;
+                // første gang man starter må det ha gått 1 sekund
+                if (t > 1) {
+                    try {
+                        game.moveAll(direction);
+                        // sier at det er 0.08 sekunder til neste gang noen skal bevege seg
+                        timePassed += 0.1;
+                        // etter at man har endret karakterposisjoner tegner man brettet på nytt
+                        updateBoard(this);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        animationTimer.start();
+
+        animationTimer.stop();
+
     }
 
     @FXML
