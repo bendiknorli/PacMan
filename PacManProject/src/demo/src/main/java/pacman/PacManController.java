@@ -211,8 +211,8 @@ public class PacManController {
         // laster inn spillet på nytt og siden spillet som er lagret er et nytt spill
         // vil et nytt spill bli laget
 
-        numXTiles = 10;
-        numYTiles = 10;
+        numXTiles = 20;
+        numYTiles = 20;
         this.game = new Game(numXTiles, numYTiles);
 
         updateBoard(null);
