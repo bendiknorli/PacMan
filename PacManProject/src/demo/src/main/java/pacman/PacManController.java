@@ -5,6 +5,7 @@ import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -21,6 +22,12 @@ public class PacManController {
 
     @FXML
     Text score;
+
+    @FXML
+    TextField xTiles;
+
+    @FXML
+    TextField yTiles;
 
     private Game game;
 
@@ -44,6 +51,10 @@ public class PacManController {
         // numXTiles = numYTiles = 20;
         // this.game = new Game(numXTiles, numYTiles);
 
+        startGame();
+    }
+
+    public void startGame() {
         updateBoard(null);
         direction = game.getLastDirection();
 
@@ -211,40 +222,11 @@ public class PacManController {
         // laster inn spillet på nytt og siden spillet som er lagret er et nytt spill
         // vil et nytt spill bli laget
 
-        numXTiles = 20;
-        numYTiles = 20;
+        numXTiles = Integer.parseInt(xTiles.getText());
+        numYTiles = Integer.parseInt(yTiles.getText());
         this.game = new Game(numXTiles, numYTiles);
 
-        updateBoard(null);
-        direction = "right";
-
-        final long startNanoTime = System.nanoTime();
-
-        // denne kjører hver frame
-        animationTimer = new AnimationTimer() {
-            double timePassed = 0;
-
-            public void handle(long currentNanoTime) {
-                // denne teller antall nanosekunder fra start og minuser antall sekunder
-                // siden forrige gang man bevegde karakterer
-                double t = ((currentNanoTime - startNanoTime) / 1000000000.0) - timePassed;
-                // første gang man starter må det ha gått 1 sekund
-                if (t > 1) {
-                    try {
-                        game.moveAll(direction);
-                        // sier at det er 0.08 sekunder til neste gang noen skal bevege seg
-                        timePassed += 0.1;
-                        // etter at man har endret karakterposisjoner tegner man brettet på nytt
-                        updateBoard(this);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
-        animationTimer.start();
-
+        startGame();
         animationTimer.stop();
 
     }

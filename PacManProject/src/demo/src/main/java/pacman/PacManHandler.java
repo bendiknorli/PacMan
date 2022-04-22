@@ -13,8 +13,8 @@ public class PacManHandler implements IPacManSaveLoad {
     @Override
     public Game loadGame(String filename) throws FileNotFoundException {
         try (Scanner scanner = new Scanner(getFile(filename))) {
-            int numYTiles = Integer.parseInt(scanner.nextLine());
             int numXTiles = Integer.parseInt(scanner.nextLine());
+            int numYTiles = Integer.parseInt(scanner.nextLine());
 
             Game game = new Game(numXTiles, numYTiles);
 
