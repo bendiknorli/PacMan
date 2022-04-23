@@ -1,7 +1,7 @@
-package pacman;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.*;
+
+import pacman.Game;
 
 public class GameTest {
     private Game game;
@@ -42,6 +42,8 @@ public class GameTest {
         Assertions.assertTrue(game.getIsAlive());
         
         game.setPacManPos(18,18); //Tilen der spøkelsene spawner
+        game.moveAll("down");
+    
         Assertions.assertFalse(game.getIsAlive());
 
     }

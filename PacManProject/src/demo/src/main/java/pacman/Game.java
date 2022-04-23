@@ -254,6 +254,14 @@ public class Game {
         return coins;
     }
 
+    public ArrayList<Integer> getPacManPos() {
+        return pacManPos;
+    }
+
+    public boolean getIsAlive() {
+        return isAlive;
+    }
+
     public Tile[][] getBoard() {
         return board;
     }
@@ -324,6 +332,13 @@ public class Game {
     }
 
     public void setPacManPos(int currentRow, int currentColumn) {
+        if (currentRow > numXTiles || currentColumn > numYTiles || currentRow < 0 || currentColumn < 0) 
+            throw new IllegalArgumentException();
+
+        if (!getTile(currentRow, currentColumn).isCorridor()) {
+            throw new IllegalArgumentException();
+        }
+
         pacManPos.set(0, currentColumn);
         pacManPos.set(1, currentRow);
     }
