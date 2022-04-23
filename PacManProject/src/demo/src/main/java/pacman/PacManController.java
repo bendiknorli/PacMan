@@ -48,6 +48,10 @@ public class PacManController {
         numXTiles = game.getBoard()[0].length;
         numYTiles = game.getBoard().length;
 
+        // numXTiles = 20;
+        // numYTiles = 20;
+        // this.game = new Game(20, 20);
+
         startGame();
     }
 

@@ -15,8 +15,8 @@
          <Button fx:id="lagre" layoutX="103.0" layoutY="2.0" mnemonicParsing="false" onAction="#saveGame" onKeyPressed="#keyPressed" text="Lagre" />
          <Button fx:id="lastOpp" layoutX="158.0" layoutY="2.0" mnemonicParsing="false" onAction="#loadGame" onKeyPressed="#keyPressed" text="Last opp" />
          <Button fx:id="nyttSpill" layoutX="257.0" layoutY="2.0" mnemonicParsing="false" onAction="#makeNewGame" onKeyPressed="#keyPressed" prefHeight="25.0" prefWidth="88.0" text="Nytt spill (x,y)" />
-         <TextField layoutX="346.0" layoutY="2.0" onKeyPressed="#keyPressed" prefHeight="25.0" prefWidth="30.0" text="20" fx:id="xTiles" />
-         <TextField fx:id="yTiles" layoutX="376.0" layoutY="2.0" onKeyPressed="#keyPressed" prefHeight="25.0" prefWidth="30.0" text="20" />
+         <TextField layoutX="346.0" layoutY="2.0" onKeyPressed="#keyPressed" prefHeight="25.0" prefWidth="30.0" text="18" fx:id="xTiles" />
+         <TextField fx:id="yTiles" layoutX="376.0" layoutY="2.0" onKeyPressed="#keyPressed" prefHeight="25.0" prefWidth="30.0" text="18" />
       </children>
    </Pane>
 </HBox>

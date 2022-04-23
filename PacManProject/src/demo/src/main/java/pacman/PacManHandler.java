@@ -19,7 +19,6 @@ public class PacManHandler implements IPacManSaveLoad {
             Game game = new Game(numXTiles, numYTiles);
 
             String coins = scanner.nextLine();
-            // game.setCoins(10);
             game.setCoins(Integer.parseInt(coins));
             game.setLastDirection(scanner.nextLine());
             game.setSecondsSinceEatenCherry(Integer.parseInt(scanner.nextLine()));

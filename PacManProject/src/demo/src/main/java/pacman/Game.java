@@ -73,14 +73,14 @@ public class Game {
             for (int x = 1; x < numXTiles - 1; x++) {
                 // setter korridorer pacman kan bevege seg på
 
+                // setter den nederste Tilen i midten (derfor delt på to) til en cherry
+                if (x == numXTiles / 2 && y == numYTiles - 2)
+                    board[y][x].setCherry(true);
+
                 // den første og siste kolonnen skal være korridorer samt hver femte kolonne
                 // alt inni her kjører derfor bare hvis det skal være en korridor
                 if (x == 1 || (x % 5 == 0 && x < numXTiles - 3) || x == numXTiles - 2) {
-                    // setter den nederste Tilen i midten (derfor delt på to) til en cherry
-                    // vil denne alltid kjøre?
-                    if (x == numXTiles / 2 && y == numYTiles - 2)
-                        board[y][x].setCherry(true);
-                    else if ((x + y) % 2 == 0) // gjør annenhver Tile til coin
+                    if (!board[y][x].isCherry() && (x + y) % 2 == 0) // gjør annenhver Tile til coin
                         board[y][x].setCoin(true);
                     if (y == 1 || y % 6 == 0 || y == numYTiles - 2) // setter første og siste
                         board[y][x].setCorner(true);
