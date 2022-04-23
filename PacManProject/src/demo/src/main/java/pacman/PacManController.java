@@ -31,7 +31,7 @@ public class PacManController {
 
     private Game game;
 
-    PacManHandler pacManHandler = new PacManHandler();
+    private PacManHandler pacManHandler = new PacManHandler();
 
     private int numXTiles, numYTiles;
 
