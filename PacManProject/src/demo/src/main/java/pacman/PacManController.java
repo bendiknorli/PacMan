@@ -205,10 +205,6 @@ public class PacManController {
     @FXML
     public void makeNewGame() throws FileNotFoundException {
         // lager et nytt spill
-        // lagrer det nye spillet til Fil.txt
-        // pacManHandler.saveGame("Fil", newGame);
-        // laster inn spillet på nytt og siden spillet som er lagret er et nytt spill
-        // vil et nytt spill bli laget
 
         try {
             Integer.parseInt(xTiles.getText());
