@@ -46,11 +46,6 @@ public class Game {
         lastPos.add(pacManStartX);
         lastPos.add(pacManStartY);
 
-        // ArrayList<Integer> ghostPos = new ArrayList<>();
-        // ghostPos.add(0);
-        // ghostPos.add(0);
-        // ghostsPos.add(ghostPos);
-
         // lager brettet med tomme Tiles
         board = new Tile[numYTiles][numXTiles];
         for (int y = 0; y < numYTiles; y++) {
@@ -58,9 +53,6 @@ public class Game {
                 board[y][x] = new Tile();
             }
         }
-
-        // Character character = new Character(new int[] { 0, 0 }, "purpleGhost", this);
-        // characters.add(character);
 
         // tegner hele mappen på nytt
         placeMap();
@@ -76,6 +68,7 @@ public class Game {
             if (y % 5 == 0) {
                 Character character = new Character(new int[] { numYTiles - 2, numXTiles - 2 });
                 characters.add(character);
+                board[character.getPosition()[0]][character.getPosition()[1]].setGhost(true);
             }
             for (int x = 1; x < numXTiles - 1; x++) {
                 // setter korridorer pacman kan bevege seg på

@@ -31,7 +31,7 @@ public class PacManController {
 
     private Game game;
 
-    PacManHandler pacManHandler = new PacManHandler();
+    private PacManHandler pacManHandler = new PacManHandler();
 
     private int numXTiles, numYTiles;
 
@@ -47,9 +47,6 @@ public class PacManController {
         this.game = pacManHandler.loadGame("Fil");
         numXTiles = game.getBoard()[0].length;
         numYTiles = game.getBoard().length;
-
-        // numXTiles = numYTiles = 20;
-        // this.game = new Game(numXTiles, numYTiles);
 
         startGame();
     }
@@ -200,14 +197,6 @@ public class PacManController {
             case DOWN:
                 direction = "down";
                 break;
-            case H:
-                makeNewGame();
-                break;
-            case J:
-                saveGame();
-                break;
-            case K:
-                loadGame();
             default:
                 break;
         }
