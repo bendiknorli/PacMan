@@ -131,7 +131,7 @@ public class PacManHandler implements IPacManSaveLoad {
     }
 
     private static File getFile(String filename) {
-        return new File("src\\demo\\src\\main\\java\\pacman\\" + filename + ".txt");
+        return new File(filename + ".txt");
     }
 
     public static void main(String[] args) throws FileNotFoundException {
