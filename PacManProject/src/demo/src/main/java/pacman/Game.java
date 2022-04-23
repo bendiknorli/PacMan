@@ -76,6 +76,7 @@ public class Game {
             if (y % 5 == 0) {
                 Character character = new Character(new int[] { numYTiles - 2, numXTiles - 2 });
                 characters.add(character);
+                board[character.getPosition()[0]][character.getPosition()[1]].setGhost(true);
             }
             for (int x = 1; x < numXTiles - 1; x++) {
                 // setter korridorer pacman kan bevege seg på

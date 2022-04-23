@@ -200,14 +200,6 @@ public class PacManController {
             case DOWN:
                 direction = "down";
                 break;
-            case H:
-                makeNewGame();
-                break;
-            case J:
-                saveGame();
-                break;
-            case K:
-                loadGame();
             default:
                 break;
         }
