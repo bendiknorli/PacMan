@@ -48,9 +48,6 @@ public class PacManController {
         numXTiles = game.getBoard()[0].length;
         numYTiles = game.getBoard().length;
 
-        // numXTiles = numYTiles = 20;
-        // this.game = new Game(numXTiles, numYTiles);
-
         startGame();
     }
 
@@ -72,7 +69,7 @@ public class PacManController {
                 if (t > 1) {
                     try {
                         game.moveAll(direction);
-                        // sier at det er 0.08 sekunder til neste gang noen skal bevege seg
+                        // sier at det er 0.1 sekunder til neste gang noen skal bevege seg
                         timePassed += 0.1;
                         // etter at man har endret karakterposisjoner tegner man brettet på nytt
                         updateBoard(this);
@@ -100,7 +97,6 @@ public class PacManController {
                 try {
                     initialize();
                 } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             });
