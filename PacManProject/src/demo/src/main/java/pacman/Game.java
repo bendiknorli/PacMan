@@ -8,12 +8,7 @@ import javafx.scene.paint.Color;
 public class Game {
     private int numXTiles, numYTiles;
 
-    private int pacManStartX = 1, pacManStartY = 1;
     private boolean pacManToMove; // om det er pacman som beveger seg denne gangen eller spøkelsene
-
-    private ArrayList<Integer> pacManPos = new ArrayList<>();
-    private ArrayList<Integer> lastPos = new ArrayList<>();
-    private String lastDirection = "right";
 
     private int coins = 0;
 
@@ -21,9 +16,11 @@ public class Game {
 
     private boolean isAlive = true;
 
-    private ArrayList<Character> characters = new ArrayList<>();
+    private ArrayList<Ghost> ghosts = new ArrayList<>();
 
     private Tile[][] board;
+
+    private PacMan pacMan;
 
     // brettet blir initialisert hver gang et Game lages
     public Game(int numXTiles, int numYTiles) {
@@ -35,14 +32,13 @@ public class Game {
 
     private void initialize(int numXTiles, int numYTiles) {
         // setter posisjonen til pacman
-        pacManPos.add(pacManStartX);
-        pacManPos.add(pacManStartY);
+        pacMan = new PacMan(new int[] { 1, 1 });
+        pacMan.setPacManStartPosition();
 
         // setter den siste posisjonen pacman var på
         // (dette er for å fjerne pacman der han var sist så ikke det blir flere pacmans
         // på en gang)
-        lastPos.add(pacManStartX);
-        lastPos.add(pacManStartY);
+        pacMan.setLastPos(pacMan.getStartPos());
 
         // lager brettet med tomme Tiles
         board = new Tile[numYTiles][numXTiles];
@@ -64,9 +60,9 @@ public class Game {
             // for hver femte rad på spillebrettet skal det lages et nytt spøkelse i den
             // siste Tilen på brettet
             if (y % 5 == 0) {
-                Character character = new Character(new int[] { numYTiles - 2, numXTiles - 2 });
-                characters.add(character);
-                board[character.getPosition()[0]][character.getPosition()[1]].setGhost(true);
+                Ghost ghost = new Ghost(new int[] { numYTiles - 2, numXTiles - 2 });
+                ghosts.add(ghost);
+                board[ghost.getPosition()[0]][ghost.getPosition()[1]].setGhost(true);
             }
             for (int x = 1; x < numXTiles - 1; x++) {
                 // setter korridorer pacman kan bevege seg på
@@ -124,30 +120,30 @@ public class Game {
     // en funksjon som beveger alt (bytter på annenhver pacman og spøkelse)
     public void moveAll(String direction) {
         // hvis pacman rører et spøkelse uten å ha cherry-powerup dør han
-        if (board[pacManPos.get(0)][pacManPos.get(1)].isGhost() && framesSinceEatenCherry == 0) {
+        if (board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].isGhost() && framesSinceEatenCherry == 0) {
             isAlive = false;
         }
         // ellers, hvis pacman har cherry-powerup når han rører et spøkelse skal
         // alle det legges til 10 coins og spøkelse som er på samme posisjon som pacman
         // skal dø
-        else if (board[pacManPos.get(0)][pacManPos.get(1)].isGhost() && framesSinceEatenCherry != 0) {
+        else if (board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].isGhost() && framesSinceEatenCherry != 0) {
             coins += 10;
             // looper over alle spøkelser og finner hvem som er på posisjonen til pacman
-            for (Character character : characters) {
-                if (character.getPosition()[0] == pacManPos.get(0) &&
-                        character.getPosition()[1] == pacManPos.get(1)) {
+            for (Ghost ghost : ghosts) {
+                if (ghost.getPosition()[0] == pacMan.getPosition()[0] &&
+                        ghost.getPosition()[1] == pacMan.getPosition()[1]) {
                     // fjerner spøkelse
-                    characters.remove(character);
+                    ghosts.remove(ghost);
                     // slutter å tegne spøkelse
-                    board[pacManPos.get(0)][pacManPos.get(1)].setGhost(false);
+                    board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].setGhost(false);
                     return;
                 }
             }
         }
         // hvis pacman er på en cherry skal det være 50
         // FRAMES (ikke sekunder) før han mister cherry-powerup
-        if (board[pacManPos.get(0)][pacManPos.get(1)].isCherry()) {
-            board[pacManPos.get(0)][pacManPos.get(1)].setCherry(false);
+        if (board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].isCherry()) {
+            board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].setCherry(false);
             framesSinceEatenCherry = 50;
         }
         // bever pacman hvis det er hans tur og spøkelser ellers
@@ -166,57 +162,59 @@ public class Game {
 
         if (framesSinceEatenCherry != 0) {
             framesSinceEatenCherry--;
-            Character.setColor(Color.DARKBLUE);
+            Ghost.setColor(Color.DARKBLUE);
         } else
-            Character.setColor(Color.GREEN);
+            Ghost.setColor(Color.GREEN);
+        // MÅ GJØRE DETTE OM TIL AT DEN VELGER FARGEN TIL SPØKELSE
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         // looper over alle karakterene
         // hvis de rører et hjørne så sjekkes det hvilke retninger det er korridorer
         // hvis det er en korridor til høyre for hjørne f.eks. vil dette legges til i et
         // array av mulige steder spøkelsene kan bevege seg
         // det velges da en tilfeldig retning av disse
-        for (Character character : characters) {
-            if (board[character.getPosition()[0]][character.getPosition()[1]].isCorner()) {
+        for (Ghost ghost : ghosts) {
+            if (board[ghost.getPosition()[0]][ghost.getPosition()[1]].isCorner()) {
                 // lager liste med strings av mulige retninger
                 // (retninger legges bare til hvis de er mulige)
                 ArrayList<String> possibleDirections = new ArrayList<>();
-                if (board[character.getPosition()[0] - 1][character.getPosition()[1]].isCorridor())
+                if (board[ghost.getPosition()[0] - 1][ghost.getPosition()[1]].isCorridor())
                     possibleDirections.add("up");
-                if (board[character.getPosition()[0] + 1][character.getPosition()[1]].isCorridor())
+                if (board[ghost.getPosition()[0] + 1][ghost.getPosition()[1]].isCorridor())
                     possibleDirections.add("down");
-                if (board[character.getPosition()[0]][character.getPosition()[1] - 1].isCorridor())
+                if (board[ghost.getPosition()[0]][ghost.getPosition()[1] - 1].isCorridor())
                     possibleDirections.add("left");
-                if (board[character.getPosition()[0]][character.getPosition()[1] + 1].isCorridor())
+                if (board[ghost.getPosition()[0]][ghost.getPosition()[1] + 1].isCorridor())
                     possibleDirections.add("right");
 
                 // setter spøkelse til å ha tilfeldig retning
                 Random rand = new Random();
                 String randomDirection = possibleDirections.get(rand.nextInt(possibleDirections.size()));
-                character.setDirection(randomDirection);
+                ghost.setDirection(randomDirection);
             }
 
             // fjerner spøkelse fra den forrige Tilen den var på
-            board[character.getPosition()[0]][character.getPosition()[1]].setGhost(false);
+            board[ghost.getPosition()[0]][ghost.getPosition()[1]].setGhost(false);
             // henter ut gamle posisjon
-            int[] newPosition = character.getPosition();
+            int[] newPosition = ghost.getPosition();
             // legger til bevegelse til den gamle posisjonen
-            switch (character.getDirection()) {
+            switch (ghost.getDirection()) {
                 case "up":
-                    newPosition[0] = character.getPosition()[0] - 1;
+                    newPosition[0] = ghost.getPosition()[0] - 1;
                     break;
                 case "down":
-                    newPosition[0] = character.getPosition()[0] + 1;
+                    newPosition[0] = ghost.getPosition()[0] + 1;
                     break;
                 case "left":
-                    newPosition[1] = character.getPosition()[1] - 1;
+                    newPosition[1] = ghost.getPosition()[1] - 1;
                     break;
                 case "right":
-                    newPosition[1] = character.getPosition()[1] + 1;
+                    newPosition[1] = ghost.getPosition()[1] + 1;
                     break;
             }
             // setter den nye posisjonen etter bevegelsen
-            character.setPosition(newPosition);
-            board[character.getPosition()[0]][character.getPosition()[1]].setGhost(true);
+            ghost.setPosition(newPosition);
+            board[ghost.getPosition()[0]][ghost.getPosition()[1]].setGhost(true);
         }
     }
 
@@ -225,18 +223,18 @@ public class Game {
         // error
         // dette gjør at try/catchen som kjøres går til catch delen som gjør at pacman
         // blir satt tilbake til sin gamle posisjon (han beveger seg ikke)
-        if (!board[pacManPos.get(0)][pacManPos.get(1)].isCorridor())
+        if (!board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].isCorridor())
             throw new IllegalArgumentException("Prøvde å bevege seg utenfor brettet");
-        else if (board[pacManPos.get(0)][pacManPos.get(1)].isCoin()) {
-            board[pacManPos.get(0)][pacManPos.get(1)].setCoin(false);
+        else if (board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].isCoin()) {
+            board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].setCoin(false);
             coins++;
             if (!areCoinsLeft())
                 System.out.println("W");
         }
         // fjerner pacman fra der han var før
-        board[lastPos.get(0)][lastPos.get(1)].setPacMan(false);
+        board[pacMan.getLastPos()[0]][pacMan.getLastPos()[1]].setPacMan(false);
         // legger til pacman der han er nå
-        board[pacManPos.get(0)][pacManPos.get(1)].setPacMan(true);
+        board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].setPacMan(true);
     }
 
     public Tile getTile(int xPos, int yPos) {
@@ -254,25 +252,29 @@ public class Game {
     // brukes av funksjonen som skriver til fil
     // fjerner det midlertidig brettet og lager et nytt et
     public void setBoard(Tile[][] board) {
-        characters.clear();
+        ghosts.clear();
         this.board = board;
     }
 
-    public ArrayList<Character> getCharacters() {
-        return characters;
+    public ArrayList<Ghost> getGhosts() {
+        return ghosts;
     }
 
-    public void setCharacters(ArrayList<Character> characters) {
-        this.characters = characters;
+    public void setGhosts(ArrayList<Ghost> ghosts) {
+        this.ghosts = ghosts;
     }
 
-    public String getLastDirection() {
-        return lastDirection;
+    public PacMan getPacMan() {
+        return pacMan;
     }
 
-    public void setLastDirection(String lastDirection) {
-        this.lastDirection = lastDirection;
-    }
+    // public String getLastDirection() {
+    // return lastDirection;
+    // }
+
+    // public void setLastDirection(String lastDirection) {
+    // this.lastDirection = lastDirection;
+    // }
 
     public int getFramesSinceEatenCherry() {
         return framesSinceEatenCherry;
@@ -284,30 +286,28 @@ public class Game {
 
     public void movePacMan(String direction) {
         // lagrer den nåværende posisjonen til pacman
-        lastPos.set(0, pacManPos.get(0));
-        lastPos.set(1, pacManPos.get(1));
-        lastDirection = direction;
+        pacMan.setLastPos(pacMan.position);
+        pacMan.setLastDirection(direction);
 
         try {
             switch (direction) {
                 case "up":
-                    pacManPos.set(0, pacManPos.get(0) - 1);
+                    pacMan.setPosition(new int[] { pacMan.getPosition()[0] - 1, pacMan.getPosition()[1] });
                     break;
                 case "down":
-                    pacManPos.set(0, pacManPos.get(0) + 1);
+                    pacMan.setPosition(new int[] { pacMan.getPosition()[0] + 1, pacMan.getPosition()[1] });
                     break;
                 case "left":
-                    pacManPos.set(1, pacManPos.get(1) - 1);
+                    pacMan.setPosition(new int[] { pacMan.getPosition()[0], pacMan.getPosition()[1] - 1 });
                     break;
                 case "right":
-                    pacManPos.set(1, pacManPos.get(1) + 1);
+                    pacMan.setPosition(new int[] { pacMan.getPosition()[0], pacMan.getPosition()[1] + 1 });
                     break;
             }
             placePacMan();
         } catch (Exception e) {
-            pacManPos.set(0, lastPos.get(0));
-            pacManPos.set(1, lastPos.get(1));
-            direction = lastDirection;
+            pacMan.setPosition(pacMan.getLastPos());
+            pacMan.setDirection(pacMan.getLastDirection());
         }
     }
 
@@ -316,11 +316,10 @@ public class Game {
     }
 
     public void setPacManPos(int currentRow, int currentColumn) {
-        pacManPos.set(0, currentColumn);
-        pacManPos.set(1, currentRow);
+        pacMan.setPosition(new int[] { currentColumn, currentRow });
     }
 
-    public ArrayList<Character> getPacManPos() {
+    public ArrayList<Ghost> getPacManPos() {
         return null;
     }
 

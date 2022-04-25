@@ -20,18 +20,18 @@ public class PacManHandler implements IPacManSaveLoad {
 
             String coins = scanner.nextLine();
             game.setScore(Integer.parseInt(coins));
-            game.setLastDirection(scanner.nextLine());
+            game.getPacMan().setLastDirection(scanner.nextLine());
             game.setFramesSinceEatenCherry(Integer.parseInt(scanner.nextLine()));
 
-            List<String> characterStrings = Arrays.asList(scanner.nextLine().split(";"));
-            ArrayList<Character> characters = new ArrayList<>();
+            List<String> ghostStrings = Arrays.asList(scanner.nextLine().split(";"));
+            ArrayList<Ghost> ghosts = new ArrayList<>();
 
-            for (String character : characterStrings) {
-                String[] characterAttributes = character.split(",");
-                Character new_character = new Character(new int[] { Integer.parseInt(characterAttributes[0]),
-                        Integer.parseInt(characterAttributes[1]) });
-                new_character.setDirection(characterAttributes[2]);
-                characters.add(new_character);
+            for (String ghost : ghostStrings) {
+                String[] ghostAttributes = ghost.split(",");
+                Ghost new_ghost = new Ghost(new int[] { Integer.parseInt(ghostAttributes[0]),
+                        Integer.parseInt(ghostAttributes[1]) });
+                new_ghost.setDirection(ghostAttributes[2]);
+                ghosts.add(new_ghost);
             }
 
             Tile[][] board = new Tile[numYTiles][numXTiles];
@@ -69,7 +69,7 @@ public class PacManHandler implements IPacManSaveLoad {
             }
 
             game.setBoard(board);
-            game.setCharacters(characters);
+            game.setGhosts(ghosts);
             return game;
         }
     }
@@ -80,16 +80,16 @@ public class PacManHandler implements IPacManSaveLoad {
             writer.println(game.getBoard()[0].length);
             writer.println(game.getBoard().length);
             writer.println(game.getScore());
-            writer.println(game.getLastDirection());
+            writer.println(game.getPacMan().getLastDirection());
             writer.println(game.getFramesSinceEatenCherry());
 
-            String characterString = "";
-            for (Character character : game.getCharacters()) {
-                characterString += character.getPosition()[0] + "," +
-                        character.getPosition()[1] + ","
-                        + character.getDirection() + ";";
+            String ghostString = "";
+            for (Ghost ghost : game.getGhosts()) {
+                ghostString += ghost.getPosition()[0] + "," +
+                        ghost.getPosition()[1] + ","
+                        + ghost.getDirection() + ";";
             }
-            writer.println(characterString);
+            writer.println(ghostString);
 
             for (Tile[] row : game.getBoard()) {
                 String rowString = "";

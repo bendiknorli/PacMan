@@ -76,7 +76,7 @@ public class GameTest {
         assertFalse(game.getTile(4, 1).isCoin());
         assertFalse(game.getTile(1, 2).isCoin());
 
-        assertEquals(3, game.getCharacters().size());
+        assertEquals(3, game.getGhosts().size());
         assertTrue(game.getTile(18, 18).isGhost());
         assertFalse(game.getTile(12, 18).isGhost());
 

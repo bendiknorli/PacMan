@@ -44,20 +44,20 @@ public class PacManController {
     public void initialize() throws FileNotFoundException {
         // lager et gameobjekt og tegner brettet
 
-        this.game = pacManHandler.loadGame("Fil");
-        numXTiles = game.getBoard()[0].length;
-        numYTiles = game.getBoard().length;
+        // this.game = pacManHandler.loadGame("Fil");
+        // numXTiles = game.getBoard()[0].length;
+        // numYTiles = game.getBoard().length;
 
-        // numXTiles = 20;
-        // numYTiles = 20;
-        // this.game = new Game(20, 20);
+        numXTiles = 20;
+        numYTiles = 20;
+        this.game = new Game(20, 20);
 
         startGame();
     }
 
     public void startGame() {
         updateBoard(null);
-        direction = game.getLastDirection();
+        direction = game.getPacMan().getLastDirection();
 
         final long startNanoTime = System.nanoTime();
 
@@ -142,7 +142,7 @@ public class PacManController {
                     if (game.getTile(x, y).isPacMan()) {
                         color = Color.YELLOW;
                     } else if (game.getTile(x, y).isGhost()) {
-                        color = Character.getColor();
+                        color = Ghost.getColor();
                     } else if (game.getTile(x, y).isCherry()) {
                         color = Color.RED;
                     } else if (game.getTile(x, y).isCorridor()) {
