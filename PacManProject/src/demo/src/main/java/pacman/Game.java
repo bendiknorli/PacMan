@@ -3,8 +3,6 @@ package pacman;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javafx.scene.paint.Color;
-
 public class Game {
     private int numXTiles, numYTiles;
 
@@ -22,7 +20,7 @@ public class Game {
 
     private PacMan pacMan;
 
-    // brettet blir initialisert hver gang et Game lages
+    // spillet blir initialisert hver gang et Game lages
     public Game(int numXTiles, int numYTiles) {
         this.numXTiles = numXTiles;
         this.numYTiles = numYTiles;
