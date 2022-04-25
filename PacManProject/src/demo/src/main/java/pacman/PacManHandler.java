@@ -28,6 +28,8 @@ public class PacManHandler implements IPacManSaveLoad {
 
             for (String ghost : ghostStrings) {
                 String[] ghostAttributes = ghost.split(",");
+                if (ghostAttributes[0] == "")
+                    continue;
                 Ghost new_ghost = new Ghost(new int[] { Integer.parseInt(ghostAttributes[0]),
                         Integer.parseInt(ghostAttributes[1]) });
                 new_ghost.setDirection(ghostAttributes[2]);

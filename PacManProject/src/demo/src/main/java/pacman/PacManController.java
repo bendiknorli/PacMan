@@ -37,6 +37,8 @@ public class PacManController {
 
     private String direction = "right";
 
+    private boolean paused;
+
     private AnimationTimer animationTimer;
 
     // initialize betyr at koden kjører på start
@@ -72,11 +74,14 @@ public class PacManController {
                 // første gang man starter må det ha gått 1 sekund
                 if (t > 1) {
                     try {
-                        game.moveAll(direction);
-                        // sier at det er 0.08 sekunder til neste gang noen skal bevege seg
+                        // sier at det er 0.1 sekunder til neste gang noen skal bevege seg
                         timePassed += 0.1;
                         // etter at man har endret karakterposisjoner tegner man brettet på nytt
                         updateBoard(this);
+                        if (paused)
+                            return;
+                        // flytter annenhver PacMan og spøkelser
+                        game.moveAll(direction);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -187,6 +192,9 @@ public class PacManController {
         KeyCode code = keyEvent.getCode();
 
         switch (code) {
+            case SPACE:
+                paused = !paused;
+                break;
             case LEFT:
                 direction = "left";
                 break;
@@ -214,19 +222,19 @@ public class PacManController {
         // vil et nytt spill bli laget
 
         try {
-            Integer.parseInt(xTiles.getText());
-            Integer.parseInt(xTiles.getText());
+            Integer.parseInt(xTiles.getText().strip());
+            Integer.parseInt(yTiles.getText().strip());
         } catch (Exception e) {
             throw new IllegalArgumentException("Ugyldig brettlengdeformat");
         }
 
-        if (Integer.parseInt(xTiles.getText()) < 1 || Integer.parseInt(xTiles.getText()) > 50
-                || Integer.parseInt(yTiles.getText()) < 1
-                || Integer.parseInt(yTiles.getText()) > 50)
-            throw new IllegalArgumentException("Brettlengder må være mellom 1 og 50 piksler");
+        if (Integer.parseInt(xTiles.getText().strip()) < 1 || Integer.parseInt(xTiles.getText().strip()) > 18
+                || Integer.parseInt(yTiles.getText().strip()) < 1
+                || Integer.parseInt(yTiles.getText().strip()) > 18)
+            throw new IllegalArgumentException("Brettlengder må være mellom 1 og 18 piksler");
 
-        numXTiles = Integer.parseInt(xTiles.getText()) + 2;
-        numYTiles = Integer.parseInt(yTiles.getText()) + 2;
+        numXTiles = Integer.parseInt(xTiles.getText().strip()) + 2;
+        numYTiles = Integer.parseInt(yTiles.getText().strip()) + 2;
         this.game = new Game(numXTiles, numYTiles);
 
         startGame();
