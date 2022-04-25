@@ -44,13 +44,13 @@ public class PacManController {
     public void initialize() throws FileNotFoundException {
         // lager et gameobjekt og tegner brettet
 
-        // this.game = pacManHandler.loadGame("Fil");
-        // numXTiles = game.getBoard()[0].length;
-        // numYTiles = game.getBoard().length;
+        this.game = pacManHandler.loadGame("Fil");
+        numXTiles = game.getBoard()[0].length;
+        numYTiles = game.getBoard().length;
 
-        numXTiles = 20;
-        numYTiles = 20;
-        this.game = new Game(20, 20);
+        // numXTiles = 20;
+        // numYTiles = 20;
+        // this.game = new Game(20, 20);
 
         startGame();
     }
