@@ -21,7 +21,7 @@ public class PacManHandler implements IPacManSaveLoad {
             String coins = scanner.nextLine();
             game.setScore(Integer.parseInt(coins));
             game.setLastDirection(scanner.nextLine());
-            game.setSecondsSinceEatenCherry(Integer.parseInt(scanner.nextLine()));
+            game.setFramesSinceEatenCherry(Integer.parseInt(scanner.nextLine()));
 
             List<String> characterStrings = Arrays.asList(scanner.nextLine().split(";"));
             ArrayList<Character> characters = new ArrayList<>();
@@ -81,7 +81,7 @@ public class PacManHandler implements IPacManSaveLoad {
             writer.println(game.getBoard().length);
             writer.println(game.getScore());
             writer.println(game.getLastDirection());
-            writer.println(game.getSecondsSinceEatenCherry());
+            writer.println(game.getFramesSinceEatenCherry());
 
             String characterString = "";
             for (Character character : game.getCharacters()) {

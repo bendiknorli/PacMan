@@ -9,8 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import pacman.Game;
-
 public class GameTest {
     private Game game;
     private int numXTiles, numYTiles;
@@ -114,7 +112,7 @@ public class GameTest {
     @Test
     @DisplayName("Tester moveAll")
     public void testMoveAll() {
-        game.setSecondsSinceEatenCherry(1); // trenger en fram med power-up
+        game.setFramesSinceEatenCherry(1); // trenger en fram med power-up
         game.setPacManPos(18, 18);
         game.moveAll("down");
 

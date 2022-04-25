@@ -17,11 +17,9 @@ public class Game {
 
     private int coins = 0;
 
-    private int secondsSinceEatenCherry = 0;
+    private int framesSinceEatenCherry = 0;
 
     private boolean isAlive = true;
-
-    // public ArrayList<ArrayList<Integer>> ghostsPos = new ArrayList<>();
 
     private ArrayList<Character> characters = new ArrayList<>();
 
@@ -60,7 +58,7 @@ public class Game {
         placePacMan();
     }
 
-    public void placeMap() {
+    private void placeMap() {
         // går igjennom hele brettet
         for (int y = 1; y < numYTiles - 1; y++) {
             // for hver femte rad på spillebrettet skal det lages et nytt spøkelse i den
@@ -126,13 +124,13 @@ public class Game {
     // en funksjon som beveger alt (bytter på annenhver pacman og spøkelse)
     public void moveAll(String direction) {
         // hvis pacman rører et spøkelse uten å ha cherry-powerup dør han
-        if (board[pacManPos.get(0)][pacManPos.get(1)].isGhost() && secondsSinceEatenCherry == 0) {
+        if (board[pacManPos.get(0)][pacManPos.get(1)].isGhost() && framesSinceEatenCherry == 0) {
             isAlive = false;
         }
         // ellers, hvis pacman har cherry-powerup når han rører et spøkelse skal
         // alle det legges til 10 coins og spøkelse som er på samme posisjon som pacman
         // skal dø
-        else if (board[pacManPos.get(0)][pacManPos.get(1)].isGhost() && secondsSinceEatenCherry != 0) {
+        else if (board[pacManPos.get(0)][pacManPos.get(1)].isGhost() && framesSinceEatenCherry != 0) {
             coins += 10;
             // looper over alle spøkelser og finner hvem som er på posisjonen til pacman
             for (Character character : characters) {
@@ -147,10 +145,10 @@ public class Game {
             }
         }
         // hvis pacman er på en cherry skal det være 50
-        // FRAMES (ikke sekunder (kan byttes hvis du vil)) før han mister cherry-powerup
+        // FRAMES (ikke sekunder) før han mister cherry-powerup
         if (board[pacManPos.get(0)][pacManPos.get(1)].isCherry()) {
             board[pacManPos.get(0)][pacManPos.get(1)].setCherry(false);
-            secondsSinceEatenCherry = 50;
+            framesSinceEatenCherry = 50;
         }
         // bever pacman hvis det er hans tur og spøkelser ellers
         if (pacManToMove)
@@ -162,12 +160,12 @@ public class Game {
         pacManToMove = !pacManToMove;
     }
 
-    public void moveGhosts() {
+    private void moveGhosts() {
         // hvis det er mer enn null sekunder siden pacman spiste cherry skal spøkelser
         // være darkblue. Ellers tegnes de vanlige grønne
 
-        if (secondsSinceEatenCherry != 0) {
-            secondsSinceEatenCherry--;
+        if (framesSinceEatenCherry != 0) {
+            framesSinceEatenCherry--;
             Character.setColor(Color.DARKBLUE);
         } else
             Character.setColor(Color.GREEN);
@@ -222,7 +220,7 @@ public class Game {
         }
     }
 
-    public void placePacMan() {
+    private void placePacMan() {
         // hvis ikke det er en korridor der pacman skal bli plassert vil det komme en
         // error
         // dette gjør at try/catchen som kjøres går til catch delen som gjør at pacman
@@ -253,9 +251,8 @@ public class Game {
         return board;
     }
 
-    // DENNE FUNKSJONEN ER DEN SOM JEG FREM TIL NÅ HAR PRØVD Å BRUKE TIL Å SKRIVE
-    // TIL FIL
-    // DET KAN HENDE AT Å BYTTE BRETT IKKE ER DEN BESTE MÅTEN GJØRE DET PÅ
+    // brukes av funksjonen som skriver til fil
+    // fjerner det midlertidig brettet og lager et nytt et
     public void setBoard(Tile[][] board) {
         characters.clear();
         this.board = board;
@@ -277,12 +274,12 @@ public class Game {
         this.lastDirection = lastDirection;
     }
 
-    public int getSecondsSinceEatenCherry() {
-        return secondsSinceEatenCherry;
+    public int getFramesSinceEatenCherry() {
+        return framesSinceEatenCherry;
     }
 
-    public void setSecondsSinceEatenCherry(int secondsSinceEatenCherry) {
-        this.secondsSinceEatenCherry = secondsSinceEatenCherry;
+    public void setFramesSinceEatenCherry(int framesSinceEatenCherry) {
+        this.framesSinceEatenCherry = framesSinceEatenCherry;
     }
 
     public void movePacMan(String direction) {
