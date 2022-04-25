@@ -3,7 +3,6 @@ package pacman;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javafx.scene.paint.Color;
 
 public class Game {
     private int numXTiles, numYTiles;
@@ -312,6 +311,8 @@ public class Game {
     }
 
     public void setPacManPos(int currentRow, int currentColumn) {
+        if (currentRow > numYTiles || currentColumn > numXTiles || currentRow < 0 || currentColumn < 0) 
+            throw new IllegalArgumentException();
         pacMan.setPosition(new int[] { currentColumn, currentRow });
     }
 
