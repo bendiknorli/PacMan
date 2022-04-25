@@ -19,7 +19,7 @@ public class PacManHandler implements IPacManSaveLoad {
             Game game = new Game(numXTiles, numYTiles);
 
             String coins = scanner.nextLine();
-            game.setCoins(Integer.parseInt(coins));
+            game.setScore(Integer.parseInt(coins));
             game.setLastDirection(scanner.nextLine());
             game.setSecondsSinceEatenCherry(Integer.parseInt(scanner.nextLine()));
 
@@ -79,7 +79,7 @@ public class PacManHandler implements IPacManSaveLoad {
         try (PrintWriter writer = new PrintWriter(getFile(filename))) {
             writer.println(game.getBoard()[0].length);
             writer.println(game.getBoard().length);
-            writer.println(game.getCoins());
+            writer.println(game.getScore());
             writer.println(game.getLastDirection());
             writer.println(game.getSecondsSinceEatenCherry());
 

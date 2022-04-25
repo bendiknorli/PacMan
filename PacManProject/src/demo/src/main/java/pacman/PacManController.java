@@ -128,7 +128,7 @@ public class PacManController {
         }
 
         // skriver hvor mange coins man har samlet
-        score.setText(Integer.toString(game.getCoins()));
+        score.setText(Integer.toString(game.getScore()));
 
         // looper gjennom alle tiles fra 0,0 til numXTiles,numYTiles
         for (int y = 0; y < numYTiles; y++) {

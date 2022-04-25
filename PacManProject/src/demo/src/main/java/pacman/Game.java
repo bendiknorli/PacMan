@@ -117,7 +117,9 @@ public class Game {
 
     // setter antall coins i spillet
     // (brukes for å skrive antall coins ut fra fil fra PacManHandler
-    public void setCoins(int coins) {
+    public void setScore(int coins) {
+        if (coins < 0)
+            throw new IllegalArgumentException("Kan ikke ha negative score");
         this.coins = coins;
     }
 
@@ -243,7 +245,7 @@ public class Game {
         return board[yPos][xPos];
     }
 
-    public int getCoins() {
+    public int getScore() {
         return coins;
     }
 
@@ -319,6 +321,10 @@ public class Game {
     public void setPacManPos(int currentRow, int currentColumn) {
         pacManPos.set(0, currentColumn);
         pacManPos.set(1, currentRow);
+    }
+
+    public ArrayList<Character> getPacManPos() {
+        return null;
     }
 
     // public void save() throws IOException {
