@@ -262,14 +262,6 @@ public class Game {
         return pacMan;
     }
 
-    // public String getLastDirection() {
-    // return lastDirection;
-    // }
-
-    // public void setLastDirection(String lastDirection) {
-    // this.lastDirection = lastDirection;
-    // }
-
     public int getFramesSinceEatenCherry() {
         return framesSinceEatenCherry;
     }
