@@ -33,7 +33,7 @@ public class Game {
     private void initialize(int numXTiles, int numYTiles) {
         // setter posisjonen til pacman
         pacMan = new PacMan(new int[] { 1, 1 });
-        pacMan.setPacManStartPosition();
+        // pacMan.setPacManStartPosition();
 
         // setter den siste posisjonen pacman var på
         // (dette er for å fjerne pacman der han var sist så ikke det blir flere pacmans
@@ -162,11 +162,9 @@ public class Game {
 
         if (framesSinceEatenCherry != 0) {
             framesSinceEatenCherry--;
-            Ghost.setColor(Color.DARKBLUE);
+            Ghost.setColor(Ghost.getEdibleColor());
         } else
-            Ghost.setColor(Color.GREEN);
-        // MÅ GJØRE DETTE OM TIL AT DEN VELGER FARGEN TIL SPØKELSE
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            Ghost.setColor(Ghost.getNormalColor());
 
         // looper over alle karakterene
         // hvis de rører et hjørne så sjekkes det hvilke retninger det er korridorer
@@ -228,8 +226,6 @@ public class Game {
         else if (board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].isCoin()) {
             board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].setCoin(false);
             coins++;
-            if (!areCoinsLeft())
-                System.out.println("W");
         }
         // fjerner pacman fra der han var før
         board[pacMan.getLastPos()[0]][pacMan.getLastPos()[1]].setPacMan(false);
@@ -322,17 +318,4 @@ public class Game {
     public ArrayList<Ghost> getPacManPos() {
         return null;
     }
-
-    // public void save() throws IOException {
-    // BufferedWriter writer = new BufferedWriter(new FileWriter("Fil.txt"));
-    // writer.write("to", 5, 10);
-    // writer.close();
-    // }
-
-    // public Game load() throws IOException {
-    // BufferedReader reader = new BufferedReader(new FileReader("Fil.txt"));
-    // String currentLine = reader.readLine();
-    // reader.close();
-    // return new Game(0, 0);
-    // }
 }

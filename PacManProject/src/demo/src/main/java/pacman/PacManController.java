@@ -92,7 +92,6 @@ public class PacManController {
         board.getChildren().clear();
 
         if (!game.areCoinsLeft() && t != null) {
-            System.out.println("Det er ikke noen coins");
             Alert wonGame = new Alert(AlertType.INFORMATION);
             wonGame.setTitle("Du vant!");
             wonGame.setHeaderText("Du samlet alle myntene på spillerbrettet");
@@ -110,7 +109,6 @@ public class PacManController {
         }
 
         if (!game.isAlive() && t != null) {
-            System.out.println("Pacman lever ikke");
             Alert lostGame = new Alert(AlertType.INFORMATION);
             lostGame.setTitle("Du suger!");
             lostGame.setHeaderText("Du ble drept av et spøkelse");

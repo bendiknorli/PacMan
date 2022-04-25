@@ -1,7 +1,5 @@
 package pacman;
 
-import java.util.ArrayList;
-
 public class PacMan extends Character {
 
     private int[] startPos = { 1, 1 };
@@ -12,11 +10,6 @@ public class PacMan extends Character {
         super(position);
     }
 
-    public void setPacManStartPosition() {
-        position[0] = startPos[0];
-        position[1] = startPos[1];
-    }
-
     public int[] getStartPos() {
         return startPos;
     }
@@ -25,12 +18,12 @@ public class PacMan extends Character {
         return lastPos;
     }
 
-    public void setLastPos(int[] lastPos) {
-        this.lastPos = lastPos;
-    }
-
     public String getLastDirection() {
         return lastDirection;
+    }
+
+    public void setLastPos(int[] lastPos) {
+        this.lastPos = lastPos;
     }
 
     public void setLastDirection(String lastDirection) {

@@ -1,13 +1,12 @@
 package pacman;
 
-public class Character {
+public abstract class Character {
 
     protected int[] position = { 1, 1 };
     private String direction = "right";
 
     public Character(int[] position) {
-        this.position[0] = (position[0]);
-        this.position[1] = (position[1]);
+        this.position = position;
     }
 
     public int[] getPosition() {
