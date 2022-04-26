@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -108,10 +111,12 @@ public class GameTest {
         Game smallGame = new Game(5, 3);
         assertTrue(smallGame.areCoinsLeft());
 
-        smallGame.movePacMan("right");
+        smallGame.moveAll("right");
+        smallGame.moveAll("right");
         assertTrue(smallGame.areCoinsLeft());
 
-        smallGame.movePacMan("right");
+        smallGame.moveAll("right");
+        smallGame.moveAll("right");
         assertFalse(smallGame.areCoinsLeft());
     }
 
@@ -167,15 +172,23 @@ public class GameTest {
     @Test
     @DisplayName("Om spøkelser beveger seg der de kan")
     public void testGhostMovemenet() {
+        Game smallGame = new Game(8, 8);
 
+        assertTrue(smallGame.getTile(smallGame.getGhosts().get(0).getPosition()[0], smallGame.getGhosts().get(0).getPosition()[1]).isCorner());
+        smallGame.moveAll("left");
+        System.out.println(smallGame.getGhosts().get(0).getPosition()[0]);
+        System.out.println(smallGame.getGhosts().get(0).getPosition()[1]);
+        assertTrue(Arrays.equals(smallGame.getGhosts().get(0).getPosition(), new int[] {5, 6}) || Arrays.equals(smallGame.getGhosts().get(0).getPosition(), new int[] {6, 5}));
+
+        assertTrue(smallGame.getTile(6, 5).isCorridor());
+        smallGame.getGhosts().get(0).setPosition(new int[] {6, 5});;
+        smallGame.getGhosts().get(0).setDirection("up");
+        smallGame.moveAll("up"); //Spøkelsen er i et korridor som fører til at den skal kun bevege seg oppover korridoren
+        assertTrue(Arrays.equals(smallGame.getGhosts().get(0).getPosition(), new int[] {6, 5}));
     }
 
-    // om spøkelser beveger seg opp når den er i en korridor, og om den beveger seg
-    // andre veier dersom den er i et hjørne
 
-    // initalize
 
     // placemap
 
-    // arecoins
 }
