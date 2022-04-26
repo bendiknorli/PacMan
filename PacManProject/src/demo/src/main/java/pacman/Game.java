@@ -3,7 +3,6 @@ package pacman;
 import java.util.ArrayList;
 import java.util.Random;
 
-
 public class Game {
     private int numXTiles, numYTiles;
 
@@ -21,7 +20,7 @@ public class Game {
 
     private PacMan pacMan;
 
-    // brettet blir initialisert hver gang et Game lages
+    // spillet blir initialisert hver gang et Game lages
     public Game(int numXTiles, int numYTiles) {
         this.numXTiles = numXTiles;
         this.numYTiles = numYTiles;
@@ -262,14 +261,6 @@ public class Game {
     public PacMan getPacMan() {
         return pacMan;
     }
-
-    // public String getLastDirection() {
-    // return lastDirection;
-    // }
-
-    // public void setLastDirection(String lastDirection) {
-    // this.lastDirection = lastDirection;
-    // }
 
     public int getFramesSinceEatenCherry() {
         return framesSinceEatenCherry;

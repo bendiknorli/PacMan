@@ -10,7 +10,7 @@ public class Ghost extends Character {
 
     public Ghost(int[] position) {
         super(position);
-        normalColor = Color.GREEN;
+        color = normalColor = Color.GREEN;
         edibleColor = Color.DARKBLUE;
     }
 
