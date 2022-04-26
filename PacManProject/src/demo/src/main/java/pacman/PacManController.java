@@ -18,16 +18,16 @@ import javafx.scene.text.Text;
 
 public class PacManController {
     @FXML
-    Pane board;
+    private Pane board;
 
     @FXML
-    Text score;
+    private Text score;
 
     @FXML
-    TextField xTiles;
+    private TextField xTiles;
 
     @FXML
-    TextField yTiles;
+    private TextField yTiles;
 
     private Game game;
 
