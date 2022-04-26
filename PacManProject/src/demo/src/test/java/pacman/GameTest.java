@@ -267,23 +267,12 @@ public class GameTest {
     @DisplayName("Tester filhåndtering")
     public void testFileHandling() throws FileNotFoundException {
         
-        
         Game smallGame = new Game(7,7);
         PacManHandler pacManHandler = new PacManHandler();
         pacManHandler.saveGame("Fil", smallGame);
         Game loadedGame = pacManHandler.loadGame("Fil");
 
         assertEquals(smallGame.toString(), loadedGame.toString());
-
-        System.out.println(game.getTile(1, 1));
-
-        System.out.println(smallGame);
-        System.out.println("SWITA`WGFAWJGPIGWÅQGIQWG");
-        System.out.println(loadedGame);
-        //assertEquals(smallGame, loadedGame);
-
-
-        //readBytes
     }
 
 }
