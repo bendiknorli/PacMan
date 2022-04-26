@@ -1,7 +1,10 @@
 package pacman;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class Game {
     private int numXTiles, numYTiles;
@@ -14,7 +17,7 @@ public class Game {
 
     private boolean isAlive = true;
 
-    private ArrayList<Ghost> ghosts = new ArrayList<>();
+    private List<Ghost> ghosts = new ArrayList<>();
 
     private Tile[][] board;
 
@@ -127,16 +130,17 @@ public class Game {
         else if (board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].isGhost() && framesSinceEatenCherry != 0) {
             coins += 10;
             // looper over alle spøkelser og finner hvem som er på posisjonen til pacman
-            for (Ghost ghost : ghosts) {
+
+            ghosts = ghosts.stream().filter((ghost) -> {
                 if (ghost.getPosition()[0] == pacMan.getPosition()[0] &&
                         ghost.getPosition()[1] == pacMan.getPosition()[1]) {
-                    // fjerner spøkelse
-                    ghosts.remove(ghost);
                     // slutter å tegne spøkelse
                     board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].setGhost(false);
-                    return;
+                    // fjerner spøkelse
+                    return false;
                 }
-            }
+                return true;
+            }).collect(Collectors.toList());
         }
         // hvis pacman er på en cherry skal det være 50
         // frames før han mister cherry-powerup
@@ -250,7 +254,7 @@ public class Game {
         this.board = board;
     }
 
-    public ArrayList<Ghost> getGhosts() {
+    public List<Ghost> getGhosts() {
         return ghosts;
     }
 
