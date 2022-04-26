@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import javafx.scene.paint.Color;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -60,10 +62,11 @@ public class GameTest {
 
     @Test
     @DisplayName("Tester om brettets Corner, Corridor, Cherry, Coin, Ghosts, er der de skal")
-    public void testMap() {
+    public void testPlaceMap() {
         assertTrue(game.getTile(1, 1).isCorner()); // Hjørne
         assertFalse(game.getTile(1, 2).isCorner()); // Korridor
-        assertFalse(game.getTile(5, 13).isCorner()); // Svart tile
+        assertFalse(game.getTile(2, 2).isCorner()); // Svart tile
+        assertFalse(game.getTile(2, 2).isCorridor()); // Svart tile
 
         assertTrue(game.getTile(2, 1).isCorridor());
         assertFalse(game.getTile(2, 2).isCorridor());
@@ -167,6 +170,17 @@ public class GameTest {
 
         assertTrue(smallGame.isAlive()); // Sjekker om PacMan fortsatt er i live etter å ha truffet spøkelsen
         assertEquals(12, smallGame.getScore()); // To mynter på brettet + spøkelse gir 10
+        assertEquals(0, smallGame.getGhosts().size()); //om alle spøkelsene er døde
+
+
+        int[] currentPos = smallGame.getPacManPos(); //Sjekker om PacMan fortsatt er i samme posisjon etter å ha gått inn i en vegg
+        smallGame.moveAll("right");
+        smallGame.moveAll("right"); 
+        smallGame.moveAll("right");
+        smallGame.moveAll("right");
+        smallGame.moveAll("right");
+        smallGame.moveAll("right");
+        assertEquals(currentPos, smallGame.getPacManPos());
     }
 
     @Test
@@ -178,8 +192,7 @@ public class GameTest {
                 .getTile(smallGame.getGhosts().get(0).getPosition()[0], smallGame.getGhosts().get(0).getPosition()[1])
                 .isCorner());
         smallGame.moveAll("left");
-        System.out.println(smallGame.getGhosts().get(0).getPosition()[0]);
-        System.out.println(smallGame.getGhosts().get(0).getPosition()[1]);
+
         assertTrue(Arrays.equals(smallGame.getGhosts().get(0).getPosition(), new int[] { 5, 6 })
                 || Arrays.equals(smallGame.getGhosts().get(0).getPosition(), new int[] { 6, 5 }));
 
@@ -192,9 +205,71 @@ public class GameTest {
         assertTrue(Arrays.equals(smallGame.getGhosts().get(0).getPosition(), new int[] { 6, 5 }));
     }
 
+    @Test
+    @DisplayName("Tester settere og gettere for Ghosts og PacMan")
+    public void testGhostsPacMan() {
+        Ghost ghost0 = new Ghost(new int[] {18, 18});
+        Ghost ghost1 = new Ghost(new int[] {18, 18});
+        Ghost ghost2 = new Ghost(new int[] {18, 18});
+        Ghost ghost3 = new Ghost(new int[] {18, 18});
+        ArrayList<Ghost> newGhosts = new ArrayList<>();
+        newGhosts.add(ghost0);
+        newGhosts.add(ghost1);
+        newGhosts.add(ghost2);
+        newGhosts.add(ghost3);
+        game.setGhosts(newGhosts);
+        assertEquals(game.getGhosts(), newGhosts);
+
+        PacMan pacman = new PacMan(new int[] {1,2});
+        game.setPacMan(pacman);
+        assertEquals(pacman, game.getPacMan());
+    }
+
+    @Test
+    @DisplayName("Tester Ghost-klassen")
+    public void testGhostClass() {
+        assertEquals(Color.GREEN, Ghost.getNormalColor()); //Vanlige farger
+        assertEquals(Color.DARKBLUE, Ghost.getEdibleColor()); //Annen farge når PacMan spiser power-up
+
+        assertEquals(Color.GREEN, Ghost.getColor()); //Sjekker den faktiske fargen
+        game.setFramesSinceEatenCherry(50);
+        game.moveAll("right");
+        assertEquals(Color.DARKBLUE, Ghost.getColor());
+
+        Ghost.setColor(Color.PURPLE); //Tester om setteren fungerer også
+        assertEquals(Color.PURPLE, Ghost.getColor());
+    }
+
+    @Test
+    @DisplayName("Tester PacMan-klassen")
+    public void testPacManClass() {
+        game.setPacManPos(1, 1);
+        game.moveAll("right");
+        game.moveAll("right");
+        game.moveAll("right");
+        game.moveAll("right");
+        game.moveAll("right");
+        game.moveAll("right");
+        assertTrue(Arrays.equals(new int[] {1,3}, game.getPacMan().getLastPos())); //Sjekker om PacMans forrige posisjon er riktig
+        assertTrue(Arrays.equals(new int[] {1,4}, game.getPacMan().getPosition())); //PacMans nåværende posisjon
+        assertEquals("right", game.getPacMan().getLastDirection()); //Forrige retning var mot høyre
+
+        game.getPacMan().setLastPos(new int[] {1,16});  //Tester settere
+        assertTrue(Arrays.equals(new int[] {1,16}, game.getPacMan().getLastPos()));
+        game.getPacMan().setLastDirection("down");
+        assertEquals("down", game.getPacMan().getLastDirection());
+
+    }
+
+    
+    // @Test
+    // @DisplayName("Tester placeMap()")
+    // public void testTODO() {
+    //     game.setBoard(game.getBoard());
+    //     assertEquals(game.getBoard(), 3);
+
+    // } spør studass
 
 
-
-    // placemap
 
 }

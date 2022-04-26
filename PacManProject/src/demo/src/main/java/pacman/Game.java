@@ -262,6 +262,10 @@ public class Game {
         return pacMan;
     }
 
+    public void setPacMan(PacMan pacMan) {
+        this.pacMan = pacMan;
+    }
+
     public int getFramesSinceEatenCherry() {
         return framesSinceEatenCherry;
     }

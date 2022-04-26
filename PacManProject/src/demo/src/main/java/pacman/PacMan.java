@@ -2,7 +2,7 @@ package pacman;
 
 public class PacMan extends Character {
 
-    private int[] startPos = { 1, 1 };
+    private final int[] startPos = { 1, 1 };
     private int[] lastPos = { 0, 0 };
     private String lastDirection = "right";
 
