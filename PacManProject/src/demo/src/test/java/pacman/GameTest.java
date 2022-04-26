@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -38,8 +36,8 @@ public class GameTest {
         });
 
         game.setPacManPos(15, 12); // (x,y)
-        assertEquals(15, game.getPacManPos()[0]);
-        assertEquals(12, game.getPacManPos()[1]);
+        assertEquals(12, game.getPacManPos()[0]);
+        assertEquals(15, game.getPacManPos()[1]);
 
         assertThrows(IllegalArgumentException.class, () -> {
             game.setPacManPos(-5, 30);
@@ -63,11 +61,11 @@ public class GameTest {
     @Test
     @DisplayName("Tester om brettets Corner, Corridor, Cherry, Coin, Ghosts, er der de skal")
     public void testMap() {
-        assertTrue(game.getTile(1, 1).isCorner()); //Hjørne
-        assertFalse(game.getTile(1, 2).isCorner()); //Korridor
-        assertFalse(game.getTile(5, 13).isCorner()); //Svart tile
+        assertTrue(game.getTile(1, 1).isCorner()); // Hjørne
+        assertFalse(game.getTile(1, 2).isCorner()); // Korridor
+        assertFalse(game.getTile(5, 13).isCorner()); // Svart tile
 
-        assertTrue(game.getTile(2, 1).isCorridor()); 
+        assertTrue(game.getTile(2, 1).isCorridor());
         assertFalse(game.getTile(2, 2).isCorridor());
 
         assertTrue(game.getTile(10, 18).isCherry());
@@ -78,30 +76,30 @@ public class GameTest {
         assertFalse(game.getTile(4, 1).isCoin());
         assertFalse(game.getTile(1, 2).isCoin());
 
-        assertEquals(3, game.getGhosts().size()); //Om antall spøkelser er spawnet riktig
-        assertTrue(game.getTile(18, 18).isGhost()); //Spøkelser i startposisjon
-        assertFalse(game.getTile(12, 18).isGhost()); //Tom felt
+        assertEquals(3, game.getGhosts().size()); // Om antall spøkelser er spawnet riktig
+        assertTrue(game.getTile(18, 18).isGhost()); // Spøkelser i startposisjon
+        assertFalse(game.getTile(12, 18).isGhost()); // Tom felt
     }
 
     @Test
     @DisplayName("Tester settere for Tile klassen")
     public void testTileSetters() {
-        game.getTile(2, 1).setGhost(true); //Plasserer et spøkelse for å se om det faktisk er en spøkelse
+        game.getTile(2, 1).setGhost(true); // Plasserer et spøkelse for å se om det faktisk er en spøkelse
         assertTrue(game.getTile(2, 1).isGhost());
 
-        game.getTile(2,1).setCherry(true);
+        game.getTile(2, 1).setCherry(true);
         assertTrue(game.getTile(2, 1).isCherry());
 
-        game.getTile(2,1).setCorner(true);
+        game.getTile(2, 1).setCorner(true);
         assertTrue(game.getTile(2, 1).isCorner());
 
-        game.getTile(2,2).setCorridor(true);
+        game.getTile(2, 2).setCorridor(true);
         assertTrue(game.getTile(2, 2).isCorridor());
 
-        game.getTile(2,1).setCoin(true);
+        game.getTile(2, 1).setCoin(true);
         assertTrue(game.getTile(2, 1).isCoin());
 
-        game.getTile(2,1).setPacMan(true);
+        game.getTile(2, 1).setPacMan(true);
         assertTrue(game.getTile(2, 1).isPacMan());
     }
 
@@ -137,36 +135,38 @@ public class GameTest {
     @Test
     @DisplayName("Tester moveAll")
     public void testMoveAll() {
-    
+
         Game smallGame = new Game(3, 7);
-        
+
         smallGame.getTile(1, 2).setCherry(true); // Tester om power-upen fungerer som den skal
         assertTrue(smallGame.getTile(1, 5).isGhost()); // Tester startposisjonen til Pacman og ghost
         assertTrue(smallGame.getTile(1, 1).isPacMan());
 
         smallGame.moveAll("down");
-        assertTrue(smallGame.getTile(1, 4).isGhost()); // moveAll sørger for at spøkelsene og Pacman beveger seg vekselsvis
-        assertFalse(smallGame.getTile(1, 2).isPacMan()); 
-        
-        smallGame.moveAll("down");
-        assertFalse(smallGame.getTile(1, 3).isGhost()); 
-        assertTrue(smallGame.getTile(1, 2).isPacMan()); 
+        assertTrue(smallGame.getTile(1, 4).isGhost()); // moveAll sørger for at spøkelsene og Pacman beveger seg
+                                                       // vekselsvis
+        assertFalse(smallGame.getTile(1, 2).isPacMan());
 
         smallGame.moveAll("down");
-        assertTrue(smallGame.getTile(1, 3).isGhost()); 
-        assertFalse(smallGame.getTile(1, 3).isPacMan()); 
-
-        assertEquals(49, smallGame.getFramesSinceEatenCherry()); //moveAll sjekker også om PacMan har spist power-upen, og må derfor gjentas for at den blir aktivert
-        smallGame.moveAll("down");
-        assertFalse(smallGame.getTile(1, 2).isGhost()); 
-        assertTrue(smallGame.getTile(1, 3).isPacMan()); 
+        assertFalse(smallGame.getTile(1, 3).isGhost());
+        assertTrue(smallGame.getTile(1, 2).isPacMan());
 
         smallGame.moveAll("down");
-        assertFalse(smallGame.getTile(1, 2).isGhost()); //spøkelsen har blitt spist 
-        assertFalse(smallGame.getTile(1, 4).isPacMan()); 
+        assertTrue(smallGame.getTile(1, 3).isGhost());
+        assertFalse(smallGame.getTile(1, 3).isPacMan());
 
-        assertTrue(smallGame.isAlive()); //Sjekker om PacMan fortsatt er i live etter å ha truffet spøkelsen
-        assertEquals(12, smallGame.getScore()); //To mynter på brettet + spøkelse gir 10
+        assertEquals(49, smallGame.getFramesSinceEatenCherry()); // moveAll sjekker også om PacMan har spist power-upen,
+                                                                 // og må derfor gjentas for at den blir aktivert
+        smallGame.moveAll("down");
+        assertFalse(smallGame.getTile(1, 2).isGhost());
+        assertTrue(smallGame.getTile(1, 3).isPacMan());
+
+        smallGame.moveAll("down");
+        assertFalse(smallGame.getTile(1, 2).isGhost()); // spøkelsen har blitt spist
+        assertFalse(smallGame.getTile(1, 4).isPacMan());
+
+        assertTrue(smallGame.isAlive()); // Sjekker om PacMan fortsatt er i live etter å ha truffet spøkelsen
+        assertEquals(12, smallGame.getScore()); // To mynter på brettet + spøkelse gir 10
     }
 
     @Test
@@ -174,20 +174,23 @@ public class GameTest {
     public void testGhostMovemenet() {
         Game smallGame = new Game(8, 8);
 
-        assertTrue(smallGame.getTile(smallGame.getGhosts().get(0).getPosition()[0], smallGame.getGhosts().get(0).getPosition()[1]).isCorner());
+        assertTrue(smallGame
+                .getTile(smallGame.getGhosts().get(0).getPosition()[0], smallGame.getGhosts().get(0).getPosition()[1])
+                .isCorner());
         smallGame.moveAll("left");
         System.out.println(smallGame.getGhosts().get(0).getPosition()[0]);
         System.out.println(smallGame.getGhosts().get(0).getPosition()[1]);
-        assertTrue(Arrays.equals(smallGame.getGhosts().get(0).getPosition(), new int[] {5, 6}) || Arrays.equals(smallGame.getGhosts().get(0).getPosition(), new int[] {6, 5}));
+        assertTrue(Arrays.equals(smallGame.getGhosts().get(0).getPosition(), new int[] { 5, 6 })
+                || Arrays.equals(smallGame.getGhosts().get(0).getPosition(), new int[] { 6, 5 }));
 
         assertTrue(smallGame.getTile(6, 5).isCorridor());
-        smallGame.getGhosts().get(0).setPosition(new int[] {6, 5});;
+        smallGame.getGhosts().get(0).setPosition(new int[] { 6, 5 });
+        ;
         smallGame.getGhosts().get(0).setDirection("up");
-        smallGame.moveAll("up"); //Spøkelsen er i et korridor som fører til at den skal kun bevege seg oppover korridoren
-        assertTrue(Arrays.equals(smallGame.getGhosts().get(0).getPosition(), new int[] {6, 5}));
+        smallGame.moveAll("up"); // Spøkelsen er i et korridor som fører til at den skal kun bevege seg oppover
+                                 // korridoren
+        assertTrue(Arrays.equals(smallGame.getGhosts().get(0).getPosition(), new int[] { 6, 5 }));
     }
-
-
 
     // placemap
 
