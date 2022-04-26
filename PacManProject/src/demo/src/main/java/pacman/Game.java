@@ -270,7 +270,7 @@ public class Game {
         this.framesSinceEatenCherry = framesSinceEatenCherry;
     }
 
-    public void movePacMan(String direction) {
+    private void movePacMan(String direction) {
         // lagrer den nåværende posisjonen til pacman
         pacMan.setLastPos(pacMan.position);
         pacMan.setLastDirection(direction);
