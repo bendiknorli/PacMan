@@ -301,8 +301,8 @@ public class Game {
         return isAlive;
     }
 
-    public void setPacManPos(int currentColumn, int currentRow) {
-        if (currentRow >= numYTiles || currentColumn >= numXTiles || currentRow < 0 || currentColumn < 0) 
+    public void setPacManPos(int currentRow, int currentColumn) {
+        if (currentRow >= numYTiles || currentColumn >= numXTiles || currentRow < 0 || currentColumn < 0)
             throw new IllegalArgumentException();
         pacMan.setPosition(new int[] { currentColumn, currentRow });
     }
