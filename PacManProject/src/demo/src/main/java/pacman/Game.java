@@ -318,4 +318,16 @@ public class Game {
     public int[] getPacManPos() {
         return pacMan.getPosition();
     }
+
+    public String toString(){
+        String outputString = "";
+        outputString += numXTiles + numYTiles + getScore() + getPacMan().getLastDirection() + getFramesSinceEatenCherry() + "\n";
+
+        for (Tile[] tiles : board) {
+            for (Tile tile : tiles) {
+                outputString += tile.toString() + "\n";
+            }
+        }
+        return outputString;
+    }
 }

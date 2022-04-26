@@ -54,6 +54,8 @@ public class Tile {
     }
 
     public String toString() {
-        return "PacMan: " + isPacMan + " Corridor: " + isCorridor + " Corner: " + isCorner;
+        return "Cherry: " + isCherry + ", Coin: " + isCoin + ", Corner: " + isCorner + ", Corridor: "
+                + isCorridor + ", Ghost: " + isGhost + ", PacMan: " + isPacMan;
     }
+
 }

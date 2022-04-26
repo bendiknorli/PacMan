@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import javafx.scene.paint.Color;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -261,12 +263,27 @@ public class GameTest {
 
     }
 
-    // @Test
-    // @DisplayName("Tester placeMap()")
-    // public void testTODO() {
-    // game.setBoard(game.getBoard());
-    // assertEquals(game.getBoard(), 3);
+    @Test
+    @DisplayName("Tester filhåndtering")
+    public void testFileHandling() throws FileNotFoundException {
+        
+        
+        Game smallGame = new Game(7,7);
+        PacManHandler pacManHandler = new PacManHandler();
+        pacManHandler.saveGame("Fil", smallGame);
+        Game loadedGame = pacManHandler.loadGame("Fil");
 
-    // } spør studass
+        assertEquals(smallGame.toString(), loadedGame.toString());
+
+        System.out.println(game.getTile(1, 1));
+
+        System.out.println(smallGame);
+        System.out.println("SWITA`WGFAWJGPIGWÅQGIQWG");
+        System.out.println(loadedGame);
+        //assertEquals(smallGame, loadedGame);
+
+
+        //readBytes
+    }
 
 }
