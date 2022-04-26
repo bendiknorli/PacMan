@@ -192,7 +192,6 @@ public class GameTest {
                 .getTile(smallGame.getGhosts().get(0).getPosition()[0], smallGame.getGhosts().get(0).getPosition()[1])
                 .isCorner());
         smallGame.moveAll("left");
-
         assertTrue(Arrays.equals(smallGame.getGhosts().get(0).getPosition(), new int[] { 5, 6 })
                 || Arrays.equals(smallGame.getGhosts().get(0).getPosition(), new int[] { 6, 5 }));
 
