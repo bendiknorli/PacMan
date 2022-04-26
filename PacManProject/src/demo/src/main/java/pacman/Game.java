@@ -140,7 +140,7 @@ public class Game {
             }
         }
         // hvis pacman er på en cherry skal det være 50
-        // FRAMES (ikke sekunder) før han mister cherry-powerup
+        // frames før han mister cherry-powerup
         if (board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].isCherry()) {
             board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].setCherry(false);
             framesSinceEatenCherry = 50;
@@ -310,13 +310,13 @@ public class Game {
         return isAlive;
     }
 
-    public void setPacManPos(int currentRow, int currentColumn) {
-        if (currentRow > numYTiles || currentColumn > numXTiles || currentRow < 0 || currentColumn < 0) 
+    public void setPacManPos(int currentColumn, int currentRow) {
+        if (currentRow >= numYTiles || currentColumn >= numXTiles || currentRow < 0 || currentColumn < 0) 
             throw new IllegalArgumentException();
         pacMan.setPosition(new int[] { currentColumn, currentRow });
     }
 
-    public ArrayList<Ghost> getPacManPos() {
-        return null;
+    public int[] getPacManPos() {
+        return pacMan.getPosition();
     }
 }
