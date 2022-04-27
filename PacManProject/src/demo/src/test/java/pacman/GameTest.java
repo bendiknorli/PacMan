@@ -266,7 +266,7 @@ public class GameTest {
     @Test
     @DisplayName("Tester filhåndtering")
     public void testFileHandling() throws FileNotFoundException {
-        Game smallGame = new Game(7,7);
+        Game smallGame = new Game(7, 7);
         PacManHandler pacManHandler = new PacManHandler();
         pacManHandler.saveGame("Fil", smallGame);
         Game loadedGame = pacManHandler.loadGame("Fil");

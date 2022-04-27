@@ -319,9 +319,10 @@ public class Game {
         return pacMan.getPosition();
     }
 
-    public String toString(){
+    public String toString() {
         String outputString = "";
-        outputString += numXTiles + numYTiles + getScore() + getPacMan().getLastDirection() + getFramesSinceEatenCherry() + "\n";
+        outputString += numXTiles + numYTiles + getScore() + getPacMan().getLastDirection()
+                + getFramesSinceEatenCherry() + "\n";
 
         for (Tile[] tiles : board) {
             for (Tile tile : tiles) {

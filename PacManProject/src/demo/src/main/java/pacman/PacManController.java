@@ -182,7 +182,6 @@ public class PacManController {
                 }
             }
         }
-
     }
 
     // gjør at piltastene velger retningen som pacman kommer til å bevege seg
