@@ -319,7 +319,7 @@ public class GameTest {
         // tester om det kastes en FileNotFoundException når man prøver å lese fra en
         // fil som ikke eksisterer
         assertThrows(FileNotFoundException.class, () -> {
-            Game unfoundGame = pacManHandler.loadGame(null);
+            pacManHandler.loadGame(null);
         });
     }
 }
