@@ -36,13 +36,13 @@ public class GameTest {
     @Test
     @DisplayName("Tester om man kan sette posisjonen innenfor brettet, utafor og med negative verdier")
     public void testValidPos() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            game.setPacManPos(21, 21);
-        });
-
         game.setPacManPos(15, 12); // (x,y)
         assertEquals(12, game.getPacManPos()[0]);
         assertEquals(15, game.getPacManPos()[1]);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.setPacManPos(21, 21);
+        });
 
         assertThrows(IllegalArgumentException.class, () -> {
             game.setPacManPos(-5, 30);
@@ -85,28 +85,6 @@ public class GameTest {
         assertEquals(3, game.getGhosts().size()); // Om antall spøkelser er spawnet riktig
         assertTrue(game.getTile(18, 18).isGhost()); // Spøkelser i startposisjon
         assertFalse(game.getTile(12, 18).isGhost()); // Tom felt
-    }
-
-    @Test
-    @DisplayName("Tester settere for Tile klassen")
-    public void testTileSetters() {
-        game.getTile(2, 1).setGhost(true); // Plasserer et spøkelse for å se om det faktisk er en spøkelse
-        assertTrue(game.getTile(2, 1).isGhost());
-
-        game.getTile(2, 1).setCherry(true);
-        assertTrue(game.getTile(2, 1).isCherry());
-
-        game.getTile(2, 1).setCorner(true);
-        assertTrue(game.getTile(2, 1).isCorner());
-
-        game.getTile(2, 2).setCorridor(true);
-        assertTrue(game.getTile(2, 2).isCorridor());
-
-        game.getTile(2, 1).setCoin(true);
-        assertTrue(game.getTile(2, 1).isCoin());
-
-        game.getTile(2, 1).setPacMan(true);
-        assertTrue(game.getTile(2, 1).isPacMan());
     }
 
     @Test
@@ -208,26 +186,6 @@ public class GameTest {
     }
 
     @Test
-    @DisplayName("Tester settere og gettere for Ghosts og PacMan")
-    public void testGhostsPacMan() {
-        Ghost ghost0 = new Ghost(new int[] { 18, 18 });
-        Ghost ghost1 = new Ghost(new int[] { 18, 18 });
-        Ghost ghost2 = new Ghost(new int[] { 18, 18 });
-        Ghost ghost3 = new Ghost(new int[] { 18, 18 });
-        ArrayList<Ghost> newGhosts = new ArrayList<>();
-        newGhosts.add(ghost0);
-        newGhosts.add(ghost1);
-        newGhosts.add(ghost2);
-        newGhosts.add(ghost3);
-        game.setGhosts(newGhosts);
-        assertEquals(game.getGhosts(), newGhosts);
-
-        PacMan pacman = new PacMan(new int[] { 1, 2 });
-        game.setPacMan(pacman);
-        assertEquals(pacman, game.getPacMan());
-    }
-
-    @Test
     @DisplayName("Tester om toBoardSize returner gyldig tall")
     public void testToBoardSize() {
         int[] testValues = game.toBoardSize("15", "13");
@@ -262,6 +220,48 @@ public class GameTest {
         assertThrows(IllegalArgumentException.class, () -> {
             game.toBoardSize("14", null);
         });
+    }
+
+    @Test
+    @DisplayName("Tester settere for Tile klassen")
+    public void testTileSetters() {
+        game.getTile(2, 1).setGhost(true); // Plasserer et spøkelse for å se om det faktisk er en spøkelse
+        assertTrue(game.getTile(2, 1).isGhost());
+
+        game.getTile(2, 1).setCherry(true);
+        assertTrue(game.getTile(2, 1).isCherry());
+
+        game.getTile(2, 1).setCorner(true);
+        assertTrue(game.getTile(2, 1).isCorner());
+
+        game.getTile(2, 2).setCorridor(true);
+        assertTrue(game.getTile(2, 2).isCorridor());
+
+        game.getTile(2, 1).setCoin(true);
+        assertTrue(game.getTile(2, 1).isCoin());
+
+        game.getTile(2, 1).setPacMan(true);
+        assertTrue(game.getTile(2, 1).isPacMan());
+    }
+
+    @Test
+    @DisplayName("Tester settere og gettere for Ghosts og PacMan")
+    public void testGhostsPacMan() {
+        Ghost ghost0 = new Ghost(new int[] { 18, 18 });
+        Ghost ghost1 = new Ghost(new int[] { 18, 18 });
+        Ghost ghost2 = new Ghost(new int[] { 18, 18 });
+        Ghost ghost3 = new Ghost(new int[] { 18, 18 });
+        ArrayList<Ghost> newGhosts = new ArrayList<>();
+        newGhosts.add(ghost0);
+        newGhosts.add(ghost1);
+        newGhosts.add(ghost2);
+        newGhosts.add(ghost3);
+        game.setGhosts(newGhosts);
+        assertEquals(game.getGhosts(), newGhosts);
+
+        PacMan pacman = new PacMan(new int[] { 1, 2 });
+        game.setPacMan(pacman);
+        assertEquals(pacman, game.getPacMan());
     }
 
     @Test
