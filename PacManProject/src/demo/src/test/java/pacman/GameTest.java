@@ -316,13 +316,10 @@ public class GameTest {
         loadedGame = pacManHandler.loadGame("test");
         assertNotEquals(game.toString(), loadedGame.toString());
 
-        // tester at det ikke skjer noe når man prøver å lagre ingenting
-        pacManHandler.saveGame(null, game);
-
-        // tester om spillet lest fra fil forblir det samme hvis man prøver å lese et
-        // ugyldig spill
-        loadedGame = pacManHandler.loadGame(null);
-        System.out.println(loadedGame.toString());
-        assertEquals(game.toString(), loadedGame.toString());
+        // tester om det kastes en FileNotFoundException når man prøver å lese fra en
+        // fil som ikke eksisterer
+        assertThrows(FileNotFoundException.class, () -> {
+            Game unfoundGame = pacManHandler.loadGame(null);
+        });
     }
 }
