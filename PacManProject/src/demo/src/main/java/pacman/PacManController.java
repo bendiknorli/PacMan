@@ -62,7 +62,7 @@ public class PacManController {
         startGame();
     }
 
-    public void startGame() { 
+    public void startGame() {
         direction = game.getPacMan().getLastDirection();
 
         final long startNanoTime = System.nanoTime();
@@ -100,8 +100,8 @@ public class PacManController {
         // sletter hele brettet
         board.getChildren().clear();
 
-        //Får opp en pop-up at du har vunnet, hvis du har klart å samle alle mynter
-        if (!game.areCoinsLeft() && t != null) { 
+        // Får opp en pop-up at du har vunnet, hvis du har klart å samle alle mynter
+        if (!game.areCoinsLeft() && t != null) {
             Alert wonGame = new Alert(AlertType.INFORMATION);
             wonGame.setTitle("Du vant!");
             wonGame.setHeaderText("Du samlet alle myntene på spillerbrettet");
@@ -117,8 +117,9 @@ public class PacManController {
             wonGame.show();
         }
 
-        //Får opp en pop-up at du har tapt, siden du ble truffet av en spøkelse uten power-up
-        if (!game.isAlive() && t != null) { 
+        // Får opp en pop-up at du har tapt, siden du ble truffet av en spøkelse uten
+        // power-up
+        if (!game.isAlive() && t != null) {
             Alert lostGame = new Alert(AlertType.INFORMATION);
             lostGame.setTitle("Du suger!");
             lostGame.setHeaderText("Du ble drept av et spøkelse");
@@ -218,18 +219,18 @@ public class PacManController {
 
     @FXML
     public void makeNewGame() throws FileNotFoundException {
-     
-        //Feilhåndtering (Sjekker om brettstørrelse er gyldig)
+
+        // Feilhåndtering (Sjekker om brettstørrelse er gyldig)
         int[] numTiles = game.toBoardSize(xTiles.getText().strip(), yTiles.getText().strip());
 
-        //Setter dermed numXTiles og numYTiles etter validering 
+        // Setter dermed numXTiles og numYTiles etter validering
         numXTiles = numTiles[0];
         numYTiles = numTiles[1];
 
         this.game = new Game(numXTiles, numYTiles);
 
         startGame();
-        //stopper animationTimer for å ikke ha to animationTimere som kjører på en gang
+        // stopper animationTimer for å ikke ha to animationTimere som kjører på en gang
         animationTimer.stop();
 
     }

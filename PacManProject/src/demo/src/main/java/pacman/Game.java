@@ -56,7 +56,7 @@ public class Game {
     private void placeMap() {
         // går igjennom hele brettet
         for (int y = 1; y < numYTiles - 1; y++) {
-            // for hver femte rad på spillebrettet skal det lages et nytt spøkelse i Tilen 
+            // for hver femte rad på spillebrettet skal det lages et nytt spøkelse i Tilen
             // nederst til høyre på brettet
             if (y % 5 == 0) {
                 Ghost ghost = new Ghost(new int[] { numYTiles - 2, numXTiles - 2 });
@@ -165,7 +165,8 @@ public class Game {
 
         // looper over alle ghostene
         // hvis de rører et hjørne så sjekkes det hvilke retninger det er korridorer
-        // hvis det er en korridor til høyre for hjørnet f.eks., vil dette legges til i et
+        // hvis det er en korridor til høyre for hjørnet f.eks., vil dette legges til i
+        // et
         // array av mulige steder spøkelsene kan bevege seg
         // det velges da en tilfeldig retning av disse
         for (Ghost ghost : ghosts) {
@@ -188,7 +189,8 @@ public class Game {
                 ghost.setDirection(randomDirection);
             }
 
-            // fjerner spøkelse fra den forrige Tilen, og deretter tegner spøkelse på den nye Tilen
+            // fjerner spøkelse fra den forrige Tilen, og deretter tegner spøkelse på den
+            // nye Tilen
             board[ghost.getPosition()[0]][ghost.getPosition()[1]].setGhost(false);
             // henter ut gamle posisjon
             int[] newPosition = ghost.getPosition();
@@ -294,7 +296,7 @@ public class Game {
                     pacMan.setPosition(new int[] { pacMan.getPosition()[0], pacMan.getPosition()[1] + 1 });
                     break;
             }
-            //Plasserer deretter PacMan på den nye posisjonen
+            // Plasserer deretter PacMan på den nye posisjonen
             placePacMan();
         } catch (Exception e) {
             // Dersom PacMan kræsjer inn i en vegg, vil den bare ha den gamle posisjonen
@@ -336,7 +338,7 @@ public class Game {
         return new int[] { (Integer.parseInt(boardSizeX) + 2), (Integer.parseInt(boardSizeY) + 2) };
     }
 
-    //toString metode for å teste filhåndtering
+    // toString metode for å teste filhåndtering
     public String toString() {
         String outputString = "";
         outputString += Integer.toString(numXTiles) + Integer.toString(numYTiles)

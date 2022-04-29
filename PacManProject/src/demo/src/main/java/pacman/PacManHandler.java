@@ -50,7 +50,8 @@ public class PacManHandler implements IPacManSaveLoad {
                 }
             }
 
-            // tekstfilen består av en to dimensjonal liste, der hver linje representerer en rad på brettet 
+            // tekstfilen består av en to dimensjonal liste, der hver linje representerer en
+            // rad på brettet
             List<List<String>> rows = new ArrayList<>();
             while (scanner.hasNextLine()) {
                 List<String> tiles = Arrays.asList(scanner.nextLine().split(";"));
