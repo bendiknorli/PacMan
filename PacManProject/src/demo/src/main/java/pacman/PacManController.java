@@ -43,7 +43,7 @@ public class PacManController {
 
     // initialize betyr at koden kjører på start
     @FXML
-    public void initialize() throws FileNotFoundException {
+    private void initialize() throws FileNotFoundException {
         // lager et gameobjekt og tegner brettet
         // hvis det finnes en fil å lese fra så laster den opp spillet
         // hvis ikke så lager den et nytt spill
@@ -62,7 +62,7 @@ public class PacManController {
         startGame();
     }
 
-    public void startGame() {
+    private void startGame() {
         direction = game.getPacMan().getLastDirection();
 
         final long startNanoTime = System.nanoTime();
@@ -96,7 +96,7 @@ public class PacManController {
         animationTimer.start();
     }
 
-    public void updateBoard(AnimationTimer t) {
+    private void updateBoard(AnimationTimer t) {
         // sletter hele brettet
         board.getChildren().clear();
 
@@ -218,7 +218,7 @@ public class PacManController {
     }
 
     @FXML
-    public void makeNewGame() throws FileNotFoundException {
+    private void makeNewGame() throws FileNotFoundException {
 
         // Feilhåndtering (Sjekker om brettstørrelse er gyldig)
         int[] numTiles = game.toBoardSize(xTiles.getText().strip(), yTiles.getText().strip());
