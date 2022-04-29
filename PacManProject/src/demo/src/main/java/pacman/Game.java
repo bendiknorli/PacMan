@@ -33,7 +33,6 @@ public class Game {
     private void initialize(int numXTiles, int numYTiles) {
         // setter posisjonen til pacman
         pacMan = new PacMan(new int[] { 1, 1 });
-        // pacMan.setPacManStartPosition();
 
         // setter den siste posisjonen pacman var på
         // (dette er for å fjerne pacman der han var sist så ikke det blir flere pacmans
@@ -57,8 +56,8 @@ public class Game {
     private void placeMap() {
         // går igjennom hele brettet
         for (int y = 1; y < numYTiles - 1; y++) {
-            // for hver femte rad på spillebrettet skal det lages et nytt spøkelse i den
-            // siste Tilen på brettet
+            // for hver femte rad på spillebrettet skal det lages et nytt spøkelse i Tilen 
+            // nederst til høyre på brettet
             if (y % 5 == 0) {
                 Ghost ghost = new Ghost(new int[] { numYTiles - 2, numXTiles - 2 });
                 ghosts.add(ghost);
@@ -66,7 +65,6 @@ public class Game {
             }
             for (int x = 1; x < numXTiles - 1; x++) {
                 // setter korridorer pacman kan bevege seg på
-
                 // setter den nederste Tilen i midten (derfor delt på to) til en cherry
                 if (x == numXTiles / 2 && y == numYTiles - 2)
                     board[y][x].setCherry(true);
@@ -110,7 +108,7 @@ public class Game {
     }
 
     // setter antall coins i spillet
-    // (brukes for å skrive antall coins ut fra fil fra PacManHandler
+    // brukes for å skrive antall coins ut fra fil fra PacManHandler
     public void setScore(int score) {
         if (score < 0)
             throw new IllegalArgumentException("Kan ikke ha negativ score");
@@ -129,47 +127,45 @@ public class Game {
         else if (board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].isGhost() && framesSinceEatenCherry != 0) {
             score += 10;
             // looper over alle spøkelser og finner hvem som er på posisjonen til pacman
-
             ghosts = ghosts.stream().filter((ghost) -> {
                 if (ghost.getPosition()[0] == pacMan.getPosition()[0] &&
                         ghost.getPosition()[1] == pacMan.getPosition()[1]) {
-                    // slutter å tegne spøkelse
-                    board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].setGhost(false);
                     // fjerner spøkelse
+                    board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].setGhost(false);
                     return false;
                 }
                 return true;
             }).collect(Collectors.toList());
         }
-        // hvis pacman er på en cherry skal det være 50
+        // hvis pacman spiser en cherry skal det være 50
         // frames før han mister cherry-powerup
         if (board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].isCherry()) {
+            // fjerner cherryen
             board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].setCherry(false);
             framesSinceEatenCherry = 50;
         }
-        // bever pacman hvis det er hans tur og spøkelser ellers
+        // beveger pacman hvis det er hans tur og spøkelser ellers
         if (pacManToMove)
             movePacMan(direction);
         else
             moveGhosts();
 
-        // sier at neste gang er det motsatt folk som beveger seg
+        // sier at neste gang er det motsatt karakterer som beveger seg
         pacManToMove = !pacManToMove;
     }
 
     private void moveGhosts() {
         // hvis det er mer enn null sekunder siden pacman spiste cherry skal spøkelser
         // være darkblue. Ellers tegnes de vanlige grønne
-
         if (framesSinceEatenCherry != 0) {
             framesSinceEatenCherry--;
             Ghost.setColor(Ghost.getEdibleColor());
         } else
             Ghost.setColor(Ghost.getNormalColor());
 
-        // looper over alle karakterene
+        // looper over alle ghostene
         // hvis de rører et hjørne så sjekkes det hvilke retninger det er korridorer
-        // hvis det er en korridor til høyre for hjørne f.eks. vil dette legges til i et
+        // hvis det er en korridor til høyre for hjørnet f.eks., vil dette legges til i et
         // array av mulige steder spøkelsene kan bevege seg
         // det velges da en tilfeldig retning av disse
         for (Ghost ghost : ghosts) {
@@ -192,7 +188,7 @@ public class Game {
                 ghost.setDirection(randomDirection);
             }
 
-            // fjerner spøkelse fra den forrige Tilen den var på
+            // fjerner spøkelse fra den forrige Tilen, og deretter tegner spøkelse på den nye Tilen
             board[ghost.getPosition()[0]][ghost.getPosition()[1]].setGhost(false);
             // henter ut gamle posisjon
             int[] newPosition = ghost.getPosition();
@@ -282,6 +278,7 @@ public class Game {
         pacMan.setLastPos(pacMan.position);
         pacMan.setLastDirection(direction);
 
+        // Beveger seg i retning til parameteret
         try {
             switch (direction) {
                 case "up":
@@ -297,8 +294,10 @@ public class Game {
                     pacMan.setPosition(new int[] { pacMan.getPosition()[0], pacMan.getPosition()[1] + 1 });
                     break;
             }
+            //Plasserer deretter PacMan på den nye posisjonen
             placePacMan();
         } catch (Exception e) {
+            // Dersom PacMan kræsjer inn i en vegg, vil den bare ha den gamle posisjonen
             pacMan.setPosition(pacMan.getLastPos());
             pacMan.setDirection(pacMan.getLastDirection());
         }
@@ -319,6 +318,8 @@ public class Game {
     }
 
     public int[] toBoardSize(String boardSizeX, String boardSizeY) {
+        // validering for brettstørrelse
+        // kun heltall som kan inputtes
         try {
             Integer.parseInt(boardSizeX);
             Integer.parseInt(boardSizeY);
@@ -326,13 +327,16 @@ public class Game {
             throw new IllegalArgumentException("Ugyldig brettlengdeformat");
         }
 
+        // minste størrelse er 1, mens maks er 18
         if (Integer.parseInt(boardSizeX) < 1 || Integer.parseInt(boardSizeX) > 18 ||
                 Integer.parseInt(boardSizeY) < 1 || Integer.parseInt(boardSizeY) > 18)
             throw new IllegalArgumentException("Brettlengder må være mellom 1 og 18 piksler");
 
+        // +2 fordi det er en ramme med tiles rundt hele brettet
         return new int[] { (Integer.parseInt(boardSizeX) + 2), (Integer.parseInt(boardSizeY) + 2) };
     }
 
+    //toString metode for å teste filhåndtering
     public String toString() {
         String outputString = "";
         outputString += Integer.toString(numXTiles) + Integer.toString(numYTiles)
