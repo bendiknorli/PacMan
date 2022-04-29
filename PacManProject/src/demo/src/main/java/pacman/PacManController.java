@@ -45,8 +45,13 @@ public class PacManController {
     @FXML
     public void initialize() throws FileNotFoundException {
         // lager et gameobjekt og tegner brettet
-
-        this.game = pacManHandler.loadGame("Fil");
+        // hvis det finnes en fil å lese fra så laster den opp spillet
+        // hvis ikke så lager den et nytt spill
+        try {
+            this.game = pacManHandler.loadGame("Fil");
+        } catch (Exception e) {
+            this.game = new Game(20, 20);
+        }
         numXTiles = game.getBoard()[0].length;
         numYTiles = game.getBoard().length;
 

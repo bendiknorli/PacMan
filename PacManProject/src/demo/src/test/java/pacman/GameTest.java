@@ -306,8 +306,8 @@ public class GameTest {
     public void testFileHandling() throws FileNotFoundException {
         // tester om spillet blir likt når man lagrer det og leser fra fil
         PacManHandler pacManHandler = new PacManHandler();
-        pacManHandler.saveGame("Fil", game);
-        Game loadedGame = pacManHandler.loadGame("Fil");
+        pacManHandler.saveGame("spill", game);
+        Game loadedGame = pacManHandler.loadGame("spill");
         assertEquals(game.toString(), loadedGame.toString());
 
         // tester om et tilfeldig spill blir ulikt spillet man leser fra fil

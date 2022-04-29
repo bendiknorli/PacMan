@@ -10,7 +10,7 @@ public class Game {
 
     private boolean pacManToMove; // om det er pacman som beveger seg denne gangen eller spøkelsene
 
-    private int coins = 0;
+    private int score = 0;
 
     private int framesSinceEatenCherry = 0;
 
@@ -111,10 +111,10 @@ public class Game {
 
     // setter antall coins i spillet
     // (brukes for å skrive antall coins ut fra fil fra PacManHandler
-    public void setScore(int coins) {
-        if (coins < 0)
-            throw new IllegalArgumentException("Kan ikke ha negative score");
-        this.coins = coins;
+    public void setScore(int score) {
+        if (score < 0)
+            throw new IllegalArgumentException("Kan ikke ha negativ score");
+        this.score = score;
     }
 
     // en funksjon som beveger alt (bytter på annenhver pacman og spøkelse)
@@ -127,7 +127,7 @@ public class Game {
         // alle det legges til 10 coins og spøkelse som er på samme posisjon som pacman
         // skal dø
         else if (board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].isGhost() && framesSinceEatenCherry != 0) {
-            coins += 10;
+            score += 10;
             // looper over alle spøkelser og finner hvem som er på posisjonen til pacman
 
             ghosts = ghosts.stream().filter((ghost) -> {
@@ -226,7 +226,7 @@ public class Game {
             throw new IllegalArgumentException("Prøvde å bevege seg utenfor brettet");
         else if (board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].isCoin()) {
             board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].setCoin(false);
-            coins++;
+            score++;
         }
         // fjerner pacman fra der han var før
         board[pacMan.getLastPos()[0]][pacMan.getLastPos()[1]].setPacMan(false);
@@ -239,7 +239,7 @@ public class Game {
     }
 
     public int getScore() {
-        return coins;
+        return score;
     }
 
     public Tile[][] getBoard() {
