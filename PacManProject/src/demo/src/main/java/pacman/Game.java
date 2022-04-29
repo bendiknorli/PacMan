@@ -3,7 +3,6 @@ package pacman;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class Game {
@@ -319,10 +318,27 @@ public class Game {
         return pacMan.getPosition();
     }
 
+    public int[] toBoardSize(String boardSizeX, String boardSizeY) {
+        try {
+            Integer.parseInt(boardSizeX);
+            Integer.parseInt(boardSizeY);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Ugyldig brettlengdeformat");
+        }
+
+        if (Integer.parseInt(boardSizeX) < 1 || Integer.parseInt(boardSizeX) > 18 ||
+                Integer.parseInt(boardSizeY) < 1 || Integer.parseInt(boardSizeY) > 18)
+            throw new IllegalArgumentException("Brettlengder må være mellom 1 og 18 piksler");
+
+        return new int[] { (Integer.parseInt(boardSizeX) + 2), (Integer.parseInt(boardSizeY) + 2) };
+    }
+
     public String toString() {
         String outputString = "";
-        outputString += numXTiles + numYTiles + getScore() + getPacMan().getLastDirection()
-                + getFramesSinceEatenCherry() + "\n";
+        outputString += Integer.toString(numXTiles) + Integer.toString(numYTiles)
+                + Integer.toString(getScore())
+                + getPacMan().getLastDirection()
+                + Integer.toString(getFramesSinceEatenCherry()) + "\n";
 
         for (Tile[] tiles : board) {
             for (Tile tile : tiles) {

@@ -2,6 +2,7 @@ package pacman;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import javafx.scene.paint.Color;
@@ -227,6 +228,43 @@ public class GameTest {
     }
 
     @Test
+    @DisplayName("Tester om toBoardSize returner gyldig tall")
+    public void testToBoardSize() {
+        int[] testValues = game.toBoardSize("15", "13");
+        assertEquals(17, testValues[0]);
+        assertEquals(15, testValues[1]);
+
+        testValues = game.toBoardSize("1", "18");
+        assertEquals(3, testValues[0]);
+        assertEquals(20, testValues[1]);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.toBoardSize("-1", "4");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.toBoardSize("13", "-6");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.toBoardSize("19", "6");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.toBoardSize("12", "19");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.toBoardSize("", "6");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.toBoardSize("10", " ");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.toBoardSize(null, "-6");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.toBoardSize("14", null);
+        });
+    }
+
+    @Test
     @DisplayName("Tester Ghost-klassen")
     public void testGhostClass() {
         assertEquals(Color.GREEN, Ghost.getNormalColor()); // Vanlige farger
@@ -266,12 +304,25 @@ public class GameTest {
     @Test
     @DisplayName("Tester filhåndtering")
     public void testFileHandling() throws FileNotFoundException {
-        Game smallGame = new Game(7, 7);
+        // tester om spillet blir likt når man lagrer det og leser fra fil
         PacManHandler pacManHandler = new PacManHandler();
-        pacManHandler.saveGame("Fil", smallGame);
+        pacManHandler.saveGame("Fil", game);
         Game loadedGame = pacManHandler.loadGame("Fil");
+        assertEquals(game.toString(), loadedGame.toString());
 
-        assertEquals(smallGame.toString(), loadedGame.toString());
+        // tester om et tilfeldig spill blir ulikt spillet man leser fra fil
+        Game randomGame = new Game(10, 10);
+        pacManHandler.saveGame("test", randomGame);
+        loadedGame = pacManHandler.loadGame("test");
+        assertNotEquals(game.toString(), loadedGame.toString());
+
+        // tester at det ikke skjer noe når man prøver å lagre ingenting
+        pacManHandler.saveGame(null, game);
+
+        // tester om spillet lest fra fil forblir det samme hvis man prøver å lese et
+        // ugyldig spill
+        loadedGame = pacManHandler.loadGame(null);
+        System.out.println(loadedGame.toString());
+        assertEquals(game.toString(), loadedGame.toString());
     }
-
 }

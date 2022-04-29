@@ -220,20 +220,11 @@ public class PacManController {
         // laster inn spillet på nytt og siden spillet som er lagret er et nytt spill
         // vil et nytt spill bli laget
 
-        try {
-            Integer.parseInt(xTiles.getText().strip());
-            Integer.parseInt(yTiles.getText().strip());
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Ugyldig brettlengdeformat");
-        }
+        int[] numTiles = game.toBoardSize(xTiles.getText().strip(), yTiles.getText().strip());
 
-        if (Integer.parseInt(xTiles.getText().strip()) < 1 || Integer.parseInt(xTiles.getText().strip()) > 18
-                || Integer.parseInt(yTiles.getText().strip()) < 1
-                || Integer.parseInt(yTiles.getText().strip()) > 18)
-            throw new IllegalArgumentException("Brettlengder må være mellom 1 og 18 piksler");
+        numXTiles = numTiles[0];
+        numYTiles = numTiles[1];
 
-        numXTiles = Integer.parseInt(xTiles.getText().strip()) + 2;
-        numYTiles = Integer.parseInt(yTiles.getText().strip()) + 2;
         this.game = new Game(numXTiles, numYTiles);
 
         startGame();
