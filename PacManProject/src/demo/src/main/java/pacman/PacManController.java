@@ -59,6 +59,8 @@ public class PacManController {
     }
 
     private void startGame() {
+        // for at spille skal vises fra start, uten dette ville vi ha et svart panel i et par sekunder
+        updateBoard(null);
         direction = game.getPacMan().getLastDirection();
 
         final long startNanoTime = System.nanoTime();
