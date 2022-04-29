@@ -55,10 +55,6 @@ public class PacManController {
         numXTiles = game.getBoard()[0].length;
         numYTiles = game.getBoard().length;
 
-        // numXTiles = 20;
-        // numYTiles = 20;
-        // this.game = new Game(20, 20);
-
         startGame();
     }
 
@@ -100,7 +96,7 @@ public class PacManController {
         // sletter hele brettet
         board.getChildren().clear();
 
-        // Får opp en pop-up at du har vunnet, hvis du har klart å samle alle mynter
+        // får opp en pop-up at du har vunnet, hvis du har klart å samle alle mynter
         if (!game.areCoinsLeft() && t != null) {
             Alert wonGame = new Alert(AlertType.INFORMATION);
             wonGame.setTitle("Du vant!");
@@ -117,7 +113,7 @@ public class PacManController {
             wonGame.show();
         }
 
-        // Får opp en pop-up at du har tapt, siden du ble truffet av en spøkelse uten
+        // får opp en pop-up at du har tapt, siden du ble truffet av en spøkelse uten
         // power-up
         if (!game.isAlive() && t != null) {
             Alert lostGame = new Alert(AlertType.INFORMATION);
@@ -190,7 +186,7 @@ public class PacManController {
     }
 
     // gjør at piltastene velger retningen som pacman kommer til å bevege seg
-    // neste gang moveAll - altså movePacMan kalles
+    // neste gang moveAll (altså movePacMan kalles)
     @FXML
     private void keyPressed(KeyEvent keyEvent) throws FileNotFoundException {
         KeyCode code = keyEvent.getCode();

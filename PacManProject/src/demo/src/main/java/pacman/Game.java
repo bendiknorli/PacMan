@@ -216,9 +216,8 @@ public class Game {
     }
 
     private void placePacMan() {
-        // hvis ikke det er en korridor der pacman skal bli plassert vil det komme en
-        // error
-        // dette gjør at try/catchen som kjøres går til catch delen som gjør at pacman
+        // hvis ikke det er en korridor der pacman skal bli plassert, vil det komme en error
+        // dette gjør at try/catchen som kjøres, går til catch delen som gjør at pacman
         // blir satt tilbake til sin gamle posisjon (han beveger seg ikke)
         if (!board[pacMan.getPosition()[0]][pacMan.getPosition()[1]].isCorridor())
             throw new IllegalArgumentException("Prøvde å bevege seg utenfor brettet");
@@ -280,7 +279,7 @@ public class Game {
         pacMan.setLastPos(pacMan.position);
         pacMan.setLastDirection(direction);
 
-        // Beveger seg i retning til parameteret
+        // beveger seg i retning til parameteret
         try {
             switch (direction) {
                 case "up":
@@ -296,10 +295,10 @@ public class Game {
                     pacMan.setPosition(new int[] { pacMan.getPosition()[0], pacMan.getPosition()[1] + 1 });
                     break;
             }
-            // Plasserer deretter PacMan på den nye posisjonen
+            // plasserer deretter pacman på den nye posisjonen
             placePacMan();
         } catch (Exception e) {
-            // Dersom PacMan kræsjer inn i en vegg, vil den bare ha den gamle posisjonen
+            // dersom pacman kræsjer inn i en vegg, vil den bare ha den gamle posisjonen
             pacMan.setPosition(pacMan.getLastPos());
             pacMan.setDirection(pacMan.getLastDirection());
         }
