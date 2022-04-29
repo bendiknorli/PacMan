@@ -62,8 +62,7 @@ public class PacManController {
         startGame();
     }
 
-    public void startGame() {
-        updateBoard(null);
+    public void startGame() { 
         direction = game.getPacMan().getLastDirection();
 
         final long startNanoTime = System.nanoTime();
@@ -101,7 +100,8 @@ public class PacManController {
         // sletter hele brettet
         board.getChildren().clear();
 
-        if (!game.areCoinsLeft() && t != null) {
+        //Får opp en pop-up at du har vunnet, hvis du har klart å samle alle mynter
+        if (!game.areCoinsLeft() && t != null) { 
             Alert wonGame = new Alert(AlertType.INFORMATION);
             wonGame.setTitle("Du vant!");
             wonGame.setHeaderText("Du samlet alle myntene på spillerbrettet");
@@ -110,7 +110,6 @@ public class PacManController {
                 try {
                     initialize();
                 } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             });
@@ -118,7 +117,8 @@ public class PacManController {
             wonGame.show();
         }
 
-        if (!game.isAlive() && t != null) {
+        //Får opp en pop-up at du har tapt, siden du ble truffet av en spøkelse uten power-up
+        if (!game.isAlive() && t != null) { 
             Alert lostGame = new Alert(AlertType.INFORMATION);
             lostGame.setTitle("Du suger!");
             lostGame.setHeaderText("Du ble drept av et spøkelse");
@@ -127,7 +127,6 @@ public class PacManController {
                 try {
                     initialize();
                 } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             });
@@ -219,20 +218,18 @@ public class PacManController {
 
     @FXML
     public void makeNewGame() throws FileNotFoundException {
-        // lager et nytt spill
-        // lagrer det nye spillet til Fil.txt
-        // pacManHandler.saveGame("Fil", newGame);
-        // laster inn spillet på nytt og siden spillet som er lagret er et nytt spill
-        // vil et nytt spill bli laget
-
+     
+        //Feilhåndtering (Sjekker om brettstørrelse er gyldig)
         int[] numTiles = game.toBoardSize(xTiles.getText().strip(), yTiles.getText().strip());
 
+        //Setter dermed numXTiles og numYTiles etter validering 
         numXTiles = numTiles[0];
         numYTiles = numTiles[1];
 
         this.game = new Game(numXTiles, numYTiles);
 
         startGame();
+        //stopper animationTimer for å ikke ha to animationTimere som kjører på en gang
         animationTimer.stop();
 
     }
@@ -248,7 +245,6 @@ public class PacManController {
     private void loadGame() throws FileNotFoundException {
         // laster inn spillet på nytt
         initialize();
-        // stopper animationTimer for å ikke ha to animationTimere som kjører på en gang
         animationTimer.stop();
     }
 }
